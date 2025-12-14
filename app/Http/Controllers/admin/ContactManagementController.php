@@ -57,4 +57,22 @@ class ContactManagementController extends Controller
             ], 500);
         }
     }
+       public function deleteContact(Request $request)
+    {
+        $contactId = $request->contactId;
+        if (empty($contactId)) {
+            return response()->json(['success' => false, 'message' => 'Missing contact id'], 400);
+        }
+
+        try {
+            $deleted = $this->contact->deleteContact($contactId);
+            if ($deleted) {
+                return response()->json(['success' => true, 'message' => 'Đã xóa liên hệ.']);
+            }
+            return response()->json(['success' => false, 'message' => 'Không tìm thấy liên hệ để xóa.'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Lỗi khi xóa: ' . $e->getMessage()], 500);
+        }
+    }
+}
 }
