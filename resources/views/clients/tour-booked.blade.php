@@ -79,6 +79,19 @@
             <div class="summary-section">
                 <div>
                     <p>Mã tour : {{ $tour_booked->tourId }}</p>
+                    <span class="booking-status
+        @if ($tour_booked->bookingStatus == 'b') status-pending
+        @elseif ($tour_booked->bookingStatus == 'y') status-upcoming
+        @elseif ($tour_booked->bookingStatus == 'f') status-finished
+        @elseif ($tour_booked->bookingStatus == 'c') status-cancelled
+        @endif
+    ">
+        @if ($tour_booked->bookingStatus == 'b') Đợi xác nhận
+        @elseif ($tour_booked->bookingStatus == 'y') Sắp khởi hành
+        @elseif ($tour_booked->bookingStatus == 'f') Hoàn thành
+        @elseif ($tour_booked->bookingStatus == 'c') Đã hủy
+        @endif
+    </span>
                     <input type="hidden" name="tourId" id="tourId" value="{{ $tour_booked->tourId }}">
                     <h5 class="widget-title">{{ $tour_booked->title }}</h5>
                     <p>Ngày khởi hành : {{ date('d-m-Y', strtotime($tour_booked->startDate)) }}</p>
@@ -125,13 +138,28 @@
                 <input type="hidden" name="bookingId" value="{{ $bookingId }}">
 
                 @if ($tour_booked->bookingStatus == 'f')
-                    <a href="{{ route('tour-detail', ['id' => $tour_booked->tourId]) }}" class="booking-btn"style="display: inline-block; text-align: center;">
-                       Đánh giá
-                    </a>
-                @else
-                    <button type="submit" class="booking-btn btn-cancel-booking {{ $hide }}">Hủy
-                        Tour</button>
-                @endif
+    {{-- Hoàn thành → Đánh giá --}}
+    <a href="{{ route('tour-detail', ['id' => $tour_booked->tourId]) }}"
+       class="booking-btn"
+       style="display: inline-block; text-align: center;">
+        Đánh giá
+    </a>
+
+@elseif ($tour_booked->bookingStatus == 'c')
+    {{-- Đã hủy → Đặt lại --}}
+    <a href="{{ route('tour-detail', ['id' => $tour_booked->tourId]) }}"
+       class="booking-btn booking-btn-rebook"
+       style="display: inline-block; text-align: center; background:#28a745;">
+        Đặt lại tour
+    </a>
+
+@else
+    {{-- Đang hiệu lực → Hủy --}}
+    <button type="submit" class="booking-btn btn-cancel-booking {{ $hide }}">
+        Hủy tour
+    </button>
+@endif
+
 
             </div>
         </div>
