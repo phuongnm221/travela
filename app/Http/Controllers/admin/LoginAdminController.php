@@ -26,7 +26,15 @@ class LoginAdminController extends Controller
     public function loginAdmin(Request $request)
     {
         $username = $request->username;
-        $password = md5($request->password);
+        $password_raw = $request->password;
+        $password = md5($password_raw);
+        
+        // Log login attempt
+        \Log::info('Admin login attempt', [
+            'username' => $username,
+            'password_hash' => $password,
+            'ip' => $request->ip()
+        ]);
 
         $login = $this->login->login($username, $password);
 
@@ -66,6 +74,11 @@ class LoginAdminController extends Controller
                 return redirect()->route('admin.dashboard');
             }
         } else {
+            \Log::warning('Admin login failed', [
+                'username' => $username,
+                'password_hash' => $password,
+                'ip' => $request->ip()
+            ]);
             toastr()->error('Thông tin đăng nhập không chính xác');
             return redirect()->route('admin.login');
         }
