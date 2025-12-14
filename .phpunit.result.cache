@@ -1,0 +1,1 @@
+{"version":1,"defects":{"Tests\\Feature\\RegisterTest::test_registration_flow_with_captcha_and_activation":3},"times":{"Tests\\Feature\\RegisterTest::test_registration_flow_with_captcha_and_activation":0.074,"Tests\\Feature\\LockoutTest::test_failed_login_triggers_lock_and_sends_email":0.839}}
