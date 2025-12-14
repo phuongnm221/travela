@@ -377,3 +377,63 @@
     text-overflow: ellipsis; /* Thêm dấu ba chấm vào cuối */
     word-break: break-word; /* Đảm bảo từ không bị tràn ra ngoài */
 }
+
+/* Make all team guide cards have equal image height and consistent crop */
+.team-item {
+    position: relative;
+    overflow: hidden;
+}
+.team-item img {
+    display: block;
+    width: 100%;
+    height: 320px; /* default desktop height */
+    object-fit: cover; /* crop to fill while keeping aspect ratio */
+    border-radius: 10px;
+}
+
+/* Slightly smaller on large but not extra-large screens */
+@media only screen and (max-width: 1299px) {
+    .team-item img { height: 280px; }
+}
+@media only screen and (max-width: 991px) {
+    .team-item img { height: 240px; }
+}
+@media only screen and (max-width: 767px) {
+    .team-item img { height: 200px; }
+}
+@media only screen and (max-width: 575px) {
+    .team-item img { height: 180px; }
+}
+
+/* Ensure the content box stays visible on top of image */
+.team-item .content {
+    z-index: 2;
+}
+
+/* Override hero title sizing so the banner title fits better on one line */
+.hero-title {
+        font-size: 80px !important;
+        line-height: 1.05 !important;
+        text-transform: none !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        padding: 0 10px; /* small horizontal padding so text doesn't touch edges */
+}
+
+@media only screen and (max-width: 1599px) {
+    .hero-title { font-size: 60px !important; }
+}
+@media only screen and (max-width: 1299px) {
+    .hero-title { font-size: 48px !important; }
+}
+@media only screen and (max-width: 991px) {
+    .hero-title { font-size: 40px !important; }
+}
+@media only screen and (max-width: 767px) {
+    /* Allow wrapping on small mobile screens to avoid excessive truncation */
+    .hero-title { white-space: normal !important; font-size: 30px !important; }
+}
+@media only screen and (max-width: 375px) {
+    .hero-title { font-size: 22px !important; }
+}
