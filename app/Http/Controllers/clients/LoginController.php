@@ -214,8 +214,11 @@ class LoginController extends Controller
         $username = $request->username;
         $password = $request->password;
 
-        // Lấy user theo username
-        $user = DB::table('tbl_users')->where('username', $username)->first();
+        // Lấy user theo username hoặc email
+        $user = DB::table('tbl_users')
+            ->where('username', $username)
+            ->orWhere('email', $username)
+            ->first();
 
         if (!$user) {
             return response()->json([
@@ -259,8 +262,9 @@ class LoginController extends Controller
                 'reset_token' => null,
             ]);
 
-            $request->session()->put('username', $username);
+            $request->session()->put('username', $user->username);
             $request->session()->put('avatar', $user->avatar);
+            $request->session()->put('userId', $user->userId);
             toastr()->success("Đăng nhập thành công!",'Thông báo');
             return response()->json([
                 'success' => true,

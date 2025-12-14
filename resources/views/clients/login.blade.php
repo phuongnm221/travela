@@ -23,7 +23,7 @@
                         <form action="{{ route('user-login') }}" method="POST" class="login-form" id="login-form" style="margin-top: 15px">
                             <div class="form-group">
                                 <label for="username_login"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="username_login" id="username_login" placeholder="Tên đăng nhập" required/>
+                                <input type="text" name="username_login" id="username_login" placeholder="Tên đăng nhập hoặc Email" required/>
                             </div>
                             <div class="invalid-feedback" style="margin-top:-15px" id="validate_username"></div>
                             @csrf
