@@ -26,6 +26,11 @@
                                 <input type="email" name="email_register" id="email_register" placeholder="Email" required/>
                             </div>
                             <div class="invalid-feedback" style="margin-top:-15px" id="validate_email_regis"></div>
+                            <div class="form-group">
+                                <label for="phone_register"><i class="zmdi zmdi-phone"></i></label>
+                                <input type="text" name="phone_register" id="phone_register" placeholder="Số điện thoại (10 chữ số)" required/>
+                            </div>
+                            <div class="invalid-feedback" style="margin-top:-15px" id="validate_phone_regis"></div>
                             @csrf
                             <input type="hidden" name="username_register" id="username_register"/>
                             <div class="invalid-feedback" style="margin-top:-15px" id="validate_email_regis"></div>

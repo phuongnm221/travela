@@ -101,12 +101,14 @@ $(document).ready(function () {
         // Lấy giá trị của các trường nhập liệu
         var fullname = $("#fullname_register").val().trim();
         var email = $("#email_register").val().trim();
+        var phone = $("#phone_register").val().trim();
         var password = $("#password_register").val().trim();
         var rePass = $("#re_pass").val().trim();
 
         // Đặt lại nội dung thông báo lỗi và ẩn chúng
         $("#validate_fullname_regis").hide().text("");
         $("#validate_email_regis").hide().text("");
+        $("#validate_phone_regis").hide().text("");
         $("#validate_password_regis").hide().text("");
         $("#validate_repass").hide().text("");
 
@@ -123,6 +125,13 @@ $(document).ready(function () {
         if (!emailPattern.test(email)) {
             isValid = false;
             $("#validate_email_regis").show().text("Email không hợp lệ.");
+        }
+
+        // Kiểm tra số điện thoại (10 chữ số)
+        var phonePattern = /^[0-9]{10}$/;
+        if (!phonePattern.test(phone)) {
+            isValid = false;
+            $("#validate_phone_regis").show().text("Số điện thoại phải có đúng 10 chữ số.");
         }
 
         // Tạo username từ email (sử dụng email làm username)
@@ -154,6 +163,7 @@ $(document).ready(function () {
                 fullname_register: fullname,
                 username_register: userName,
                 email_register: email,
+                phone_register: phone,
                 password_register: password,
                 re_pass: rePass,
                 _token: $('input[name="_token"]').val(),

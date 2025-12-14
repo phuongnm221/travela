@@ -39,8 +39,17 @@ class LoginController extends Controller
         $fullname = $request->fullname_register ?? null;
         $username_regis = $request->username_register ?? $request->username_regis;
         $email = $request->email_register ?? $request->email;
+        $phone = $request->phone_register ?? $request->phone ?? null;
         $password_regis = $request->password_register ?? $request->password_regis;
         $password_confirm = $request->re_pass ?? $request->password_confirm ?? null;
+
+        // Kiểm tra số điện thoại
+        if (!$phone || !preg_match('/^[0-9]{10}$/', $phone)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Số điện thoại phải có đúng 10 chữ số!'
+            ]);
+        }
 
         // Kiểm tra password xác nhận
         if ($password_confirm && $password_regis !== $password_confirm) {
@@ -91,6 +100,7 @@ class LoginController extends Controller
             'username'         => $username_regis,
             'fullname'         => $fullname,
             'email'            => $email,
+            'phoneNumber'      => $phone,
             'password'         => md5($password_regis),
             'activation_token' => $activation_token,
             'activation_token_expires' => $activation_token_expires
