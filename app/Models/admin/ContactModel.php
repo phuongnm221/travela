@@ -27,6 +27,12 @@ class ContactModel extends Model
             ->update($data);
     }
 
+    public function deleteContact($contactId)
+    {
+        return DB::table($this->table)
+            ->where('contactId', $contactId)
+            ->delete();
+    }
     public function countContactsUnread()
     {
         $contacts = DB::table($this->table)
