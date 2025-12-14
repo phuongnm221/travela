@@ -39,7 +39,7 @@
                             <div class="content">
                                 <h5>Cần trợ giúp và hỗ trợ</h5>
                                 <div class="text"><i class="far fa-envelope"></i> <a
-                                        href="mailto:minhdien.dev@gmail.com">minhdien.dev@gmail.com</a></div>
+                                        href="mailto:https://www.facebook.com/mai.nguyen.81792">pngatink29cbg@gmail.com</a></div>
                             </div>
                         </div>
                     </div>
@@ -59,8 +59,8 @@
                             data-aos-delay="50">
                             <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
                             <div class="content">
-                                <h5>Gia Lai</h5>
-                                <div class="text"><i class="fal fa-map-marker-alt"></i> Cửu An, An Khê, Gia Lai</div>
+                                <h5>Hà Nội</h5>
+                                <div class="text"><i class="fal fa-map-marker-alt"></i> 12 Chùa Bộc</div>
                             </div>
                         </div>
                     </div>
@@ -69,10 +69,9 @@
                             data-aos-delay="100">
                             <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
                             <div class="content">
-                                <h5>Kí túc xá Việt Hàn</h5>
-                                <div class="text"><i class="fal fa-map-marker-alt"></i> 470 Trần Đại Nghĩa, Ngũ Hành
-                                    Sơn,
-                                    Thành phố Đà Nẵng</div>
+                                <h5>Travela</h5>
+                                <div class="text"><i class="fal fa-map-marker-alt"></i> 12 Chùa Bộc, Đống Đa,
+                                    Thành phố Hà Nội</div>
                             </div>
                         </div>
                     </div>
@@ -108,8 +107,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone_number">Số điện thoại <span style="color: red">*</span></label>
-                                    <input type="text" id="phone_number" name="phone_number" class="form-control"
-                                        placeholder="Nhập 10 chữ số" value="" 
+                                       <input type="tel" id="phone_number" name="phone_number" class="form-control"
+                                        inputmode="numeric" maxlength="10" placeholder="Nhập 10 chữ số" value=""
                                         pattern="^\d{10}$" 
                                         title="Số điện thoại phải gồm 10 chữ số"
                                         required>
@@ -177,5 +176,31 @@
 </div>
 <!-- Contact Map End -->
 
+
+<script>
+(function(){
+    var phone = document.getElementById('phone_number');
+    if (!phone) return;
+    // Ensure attributes are present in case browser doesn't honor changed markup
+    phone.setAttribute('inputmode','numeric');
+    phone.setAttribute('maxlength','10');
+    phone.type = 'tel';
+
+    function cleanAndLimit(val){
+        return val.replace(/\D/g,'').slice(0,10);
+    }
+
+    phone.addEventListener('input', function(){
+        var cleaned = cleanAndLimit(this.value);
+        if (this.value !== cleaned) this.value = cleaned;
+    });
+
+    phone.addEventListener('paste', function(e){
+        e.preventDefault();
+        var paste = (e.clipboardData || window.clipboardData).getData('text') || '';
+        this.value = cleanAndLimit(paste);
+    });
+})();
+</script>
 
 @include('clients.blocks.footer')
