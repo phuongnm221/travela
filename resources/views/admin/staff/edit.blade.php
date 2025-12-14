@@ -14,14 +14,16 @@
 
                 <div class="clearfix"></div>
 
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Chỉnh sửa nhân sự</h2>
+                <div class="x_panel" style="width: 100%; max-width: 100%; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.08); padding: 32px 24px;">
+                    <div class="x_title" style="text-align: center; margin-bottom: 32px;">
+                        <h2 style="font-weight: 700; color: #2a3f54; letter-spacing: 1px;">Chỉnh sửa nhân sự</h2>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                         @if ($errors && is_object($errors) && $errors->any())
-                            <div class="alert alert-danger">
+                            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                <h4>Lỗi:</h4>
                                 <ul>
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -30,48 +32,49 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('admin.staff.update', $staff->adminId) }}" method="POST" class="form-horizontal form-label-left">
+                        <form action="{{ route('admin.staff.update', $staff->adminId) }}" method="POST" class="form-horizontal form-label-left" role="form" autocomplete="off">
                             @csrf
 
-                            <div class="form-group">
-                                <label for="fullName" class="control-label col-md-3 col-sm-3 col-xs-12">Họ và tên <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="fullName" name="fullName" required class="form-control" value="{{ $staff->fullName }}">
+                            <div class="form-group row" style="margin-bottom: 20px;">
+                                <label for="fullName" class="col-sm-4 col-form-label" style="font-weight: 600; color: #34495e;">Họ và tên <span class="required" style="color: #e74c3c;">*</span></label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="fullName" name="fullName" required class="form-control" placeholder="Nhập họ và tên" value="{{ $staff->fullName }}" style="border-radius: 6px;">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="email" class="control-label col-md-3 col-sm-3 col-xs-12">Email <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="email" id="email" name="email" required class="form-control" value="{{ $staff->email }}">
+                            <div class="form-group row" style="margin-bottom: 20px;">
+                                <label for="email" class="col-sm-4 col-form-label" style="font-weight: 600; color: #34495e;">Email <span class="required" style="color: #e74c3c;">*</span></label>
+                                <div class="col-sm-8">
+                                    <input type="email" id="email" name="email" required class="form-control" placeholder="Nhập email" value="{{ $staff->email }}" style="border-radius: 6px;">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="password" class="control-label col-md-3 col-sm-3 col-xs-12">Mật khẩu mới</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="password" id="password" name="password" class="form-control" placeholder="Để trống nếu không muốn thay đổi">
+                            <div class="form-group row" style="margin-bottom: 20px;">
+                                <label for="password" class="col-sm-4 col-form-label" style="font-weight: 600; color: #34495e;">Mật khẩu mới</label>
+                                <div class="col-sm-8">
+                                    <input type="password" id="password" name="password" class="form-control" placeholder="Để trống nếu không muốn thay đổi" style="border-radius: 6px;">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="phoneNumber" class="control-label col-md-3 col-sm-3 col-xs-12">Số điện thoại</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" value="{{ $staff->phoneNumber ?? '' }}">
+                            <div class="form-group row" style="margin-bottom: 20px;">
+                                <label for="phoneNumber" class="col-sm-4 col-form-label" style="font-weight: 600; color: #34495e;">Số điện thoại</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Nhập số điện thoại" value="{{ $staff->phoneNumber ?? '' }}" style="border-radius: 6px;">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="address" class="control-label col-md-3 col-sm-3 col-xs-12">Địa chỉ</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="address" name="address" class="form-control" value="{{ $staff->address ?? '' }}">
+                            <div class="form-group row" style="margin-bottom: 28px;">
+                                <label for="address" class="col-sm-4 col-form-label" style="font-weight: 600; color: #34495e;">Địa chỉ</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="address" name="address" class="form-control" placeholder="Nhập địa chỉ" value="{{ $staff->address ?? '' }}" style="border-radius: 6px;">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                    <button type="submit" class="btn btn-success">Lưu thay đổi</button>
-                                    <a href="{{ route('admin.staff.index') }}" class="btn btn-secondary">Hủy</a>
+                            <div class="ln_solid" style="margin: 32px 0 24px 0;"></div>
+                            <div class="form-group row" style="text-align: center;">
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn-success" style="min-width: 140px; font-weight: 600; font-size: 16px; border-radius: 6px; margin-right: 12px;">Lưu thay đổi</button>
+                                    <a href="{{ route('admin.staff.index') }}" class="btn btn-default" style="min-width: 100px; font-size: 16px; border-radius: 6px;">Hủy</a>
                                 </div>
                             </div>
                         </form>
