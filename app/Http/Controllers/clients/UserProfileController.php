@@ -35,7 +35,8 @@ class UserProfileController extends Controller
         $fullName = $req->fullName;
         $address = $req->address;
         $email = $req->email;
-        $phone = $req->phoneNumber;
+        // Accept both 'phone' and 'phoneNumber' field names
+        $phone = $req->phoneNumber ?? $req->phone;
 
         $dataUpdate = [
             'fullName' => $fullName,
