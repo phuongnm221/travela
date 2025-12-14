@@ -135,11 +135,20 @@
                                         style="color: white">
                                         @if (session()->has('avatar'))
                                             @php
-                                                $avatar = session()->get('avatar', 'user_avatar.jpg');
+                                                $avatar = session()->get('avatar');
+                                                // Determine avatar URL: external or local
+                                                $isExternal = preg_match('/^https?:\/\//', $avatar);
+                                                if ($isExternal) {
+                                                    $avatarUrl = $avatar;
+                                                } elseif (Str::startsWith($avatar, 'clients/')) {
+                                                    $avatarUrl = asset($avatar);
+                                                } else {
+                                                    $avatarUrl = asset('clients/assets/images/user-profile/' . $avatar);
+                                                }
                                             @endphp
                                             <img id="avatarPreview" class="img-account-profile rounded-circle"
-                                                src="{{ asset('admin/assets/images/user-profile/' . $avatar) }}"
-                                                style="width: 36px; height: 36px;">
+                                                src="{{ $avatarUrl }}"
+                                                style="width: 36px; height: 36px; object-fit:cover;">
                                         @else
                                             <i class='bx bxs-user bx-tada' style="font-size: 36px; color: white;"></i>
                                         @endif
