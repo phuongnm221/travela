@@ -70,6 +70,101 @@
 <!-- Custom Scripts By DevDien -->
 <script src="{{ asset('admin/assets/js/custom-js.js') }}"></script>
 
+<script>
+;(function(){
+	var currentContactId = null;
+
+	// Track which contact is selected (left list items have data-contactid)
+	$(document).on('click', '.contact-item', function(){
+		currentContactId = $(this).data('contactid');
+	});
+
+	// Initialize Bootstrap popover for trash button
+	var $btn = $('#btn-trash-confirm');
+	if ($btn.length && $.fn.popover) {
+		var deleteUrl = '{{ route('admin.delete-contact') }}';
+		var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+		$btn.popover({
+			html: true,
+			trigger: 'manual',
+			placement: 'left',
+			container: 'body',
+			content: function(){
+				// Use anchor tags instead of <button> because Bootstrap's sanitizer
+				// may strip button tags from popover content.
+				return '<div style="min-width:180px">' +
+					'<p style="margin:0 0 8px">Bạn có chắc chắn muốn xóa?</p>' +
+					'<div class="text-right">' +
+						'<a href="javascript:void(0)" class="btn btn-xs btn-primary btn-confirm-delete">Có</a> ' +
+						'<a href="javascript:void(0)" class="btn btn-xs btn-default btn-cancel-delete" style="border:1px solid #ccc">Không</a>' +
+					'</div></div>';
+			}
+		});
+
+		$btn.on('click', function(e){
+			e.preventDefault();
+			// If no contact selected, show a quick tooltip instead
+			if (!currentContactId) {
+				var original = $btn.attr('title') || 'Trash';
+				$btn.attr('title', 'Vui lòng chọn liên hệ trước khi xóa').tooltip({trigger:'manual'}).tooltip('show');
+				setTimeout(function(){ $btn.tooltip('hide').attr('title', original); }, 1600);
+				return;
+			}
+			$btn.popover('toggle');
+		});
+
+		// Confirm / Cancel handlers delegated to document because popover content is injected
+		$(document).on('click', '.btn-cancel-delete', function(){
+			$btn.popover('hide');
+		});
+
+		$(document).on('click', '.btn-confirm-delete', function(){
+			if (!currentContactId) {
+				$btn.popover('hide');
+				return;
+			}
+			// perform AJAX POST to delete
+			$.ajax({
+				url: deleteUrl,
+				method: 'POST',
+				data: { contactId: currentContactId },
+				headers: { 'X-CSRF-TOKEN': csrfToken },
+				beforeSend: function(){
+					// optionally disable button
+					$('.btn-confirm-delete').prop('disabled', true).text('Đang xóa...');
+				}
+			}).done(function(resp){
+				if (resp && resp.success) {
+					// remove item from list
+					$('.contact-item[data-contactid="' + currentContactId + '"]').remove();
+					currentContactId = null;
+					// optionally clear mail view
+					$('.view-mail p').text('');
+					// show success feedback
+					toastr && toastr.success(resp.message || 'Đã xóa');
+				} else {
+					toastr && toastr.error(resp.message || 'Không thể xóa');
+				}
+			}).fail(function(xhr){
+				var msg = 'Lỗi khi xóa';
+				if (xhr && xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
+				toastr && toastr.error(msg);
+			}).always(function(){
+				$btn.popover('hide');
+				$('.btn-confirm-delete').prop('disabled', false).text('Có');
+			});
+		});
+
+		// Clicking outside should close the popover
+		$(document).on('click', function (e) {
+			if (!$btn.is(e.target) && $btn.has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+				$btn.popover('hide');
+			}
+		});
+	}
+})();
+</script>
 </body>
 
 </html>
