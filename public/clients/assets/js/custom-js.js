@@ -94,25 +94,6 @@ $(document).ready(function () {
     // Handle form submission for signup
     $("#register-form").on("submit", function (e) {
         e.preventDefault();
-        // Read token and flags from window to avoid closure issues
-        var captchaVal = $('#g-recaptcha-response').val();
-        var captchaInProgress = window.captchaInProgress || false;
-        var submissionFromCaptcha = window.submissionFromCaptcha || false;
-
-        // If this submit was triggered by captcha callback, proceed; otherwise require token
-        if (!submissionFromCaptcha) {
-            if (!captchaVal) {
-                if (!captchaInProgress) {
-                    window.captchaInProgress = true;
-                    $('#captchaModal').modal('show');
-                }
-                return;
-            }
-        }
-
-        // clear state so we don't loop
-        window.captchaInProgress = false;
-        window.submissionFromCaptcha = false;
 
         $(".loader").show();
         $("#register-form").addClass("hidden-content");
@@ -175,7 +156,6 @@ $(document).ready(function () {
                 email_register: email,
                 password_register: password,
                 re_pass: rePass,
-                'g-recaptcha-response': $('#g-recaptcha-response').val(),
                 _token: $('input[name="_token"]').val(),
             };
             console.log(formData, $(this).attr("action"));
@@ -194,39 +174,11 @@ $(document).ready(function () {
                         .removeClass("hidden-content")
                         .trigger("reset");
                     $(".loader").hide();
-
-                    // Reset reCAPTCHA widget and clear token/flags to avoid reuse or loop
-                    try {
-                        if (typeof grecaptcha !== 'undefined') {
-                            if (typeof window.recaptchaWidgetId !== 'undefined') {
-                                grecaptcha.reset(window.recaptchaWidgetId);
-                            } else {
-                                grecaptcha.reset();
-                            }
-                        }
-                    } catch (e) {}
-                    $('#g-recaptcha-response').val('');
-                    window.submissionFromCaptcha = false;
-                    window.captchaInProgress = false;
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     toastr.error("Có lỗi xảy ra. Vui lòng thử lại sau.");
                     $(".loader").hide();
                     $("#register-form").removeClass("hidden-content");
-
-                    // Reset reCAPTCHA widget and clear token/flags on error as well
-                    try {
-                        if (typeof grecaptcha !== 'undefined') {
-                            if (typeof window.recaptchaWidgetId !== 'undefined') {
-                                grecaptcha.reset(window.recaptchaWidgetId);
-                            } else {
-                                grecaptcha.reset();
-                            }
-                        }
-                    } catch (e) {}
-                    $('#g-recaptcha-response').val('');
-                    window.submissionFromCaptcha = false;
-                    window.captchaInProgress = false;
                 },
             });
         }

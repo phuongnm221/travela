@@ -42,8 +42,6 @@
                                 <input type="password" name="re_pass" id="re_pass" placeholder="Nhập lại mật khẩu" required/>
                             </div>
                             <div class="invalid-feedback" style="margin-top:-15px" id="validate_repass"></div>
-                            {{-- hidden token set after captcha success --}}
-                            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response" />
                             <div class="form-group form-button">
                                 <input type="submit" name="signup" id="signup" class="form-submit"
                                     value="Đăng ký" />
@@ -62,61 +60,3 @@
     </div>
 </div>
 @include('clients.blocks.footer')
-<!-- Captcha modal (v2 checkbox) -->
-<div class="modal fade" id="captchaModal" tabindex="-1" aria-labelledby="captchaModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="captchaModalLabel">Xác thực</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <p>Vui lòng xác thực bạn không phải là robot</p>
-                <div id="recaptcha-widget" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-<script>
-    // Render widget when modal shown. Poll for grecaptcha if API hasn't loaded yet.
-    var recaptchaWidgetId = null;
-    var recaptchaRendered = false;
-    document.addEventListener('DOMContentLoaded', function() {
-        $('#captchaModal').on('shown.bs.modal', function () {
-            var attempts = 0;
-            var maxAttempts = 20; // ~6s if interval 300ms
-            var interval = setInterval(function() {
-                attempts++;
-                if (typeof grecaptcha !== 'undefined') {
-                    clearInterval(interval);
-                    if (!recaptchaRendered) {
-                        try {
-                            var sitekey = document.getElementById('recaptcha-widget').getAttribute('data-sitekey');
-                            recaptchaWidgetId = grecaptcha.render('recaptcha-widget', {
-                                'sitekey': sitekey,
-                                'callback': function(token) {
-                                    document.getElementById('g-recaptcha-response').value = token;
-                                    // mark that this submit comes from captcha
-                                    try { window.submissionFromCaptcha = true; window.captchaInProgress = false; } catch(e){}
-                                    $('#captchaModal').modal('hide');
-                                    // small delay then trigger jQuery submit so handler sees token
-                                    setTimeout(function(){
-                                        $('#register-form').trigger('submit');
-                                    }, 120);
-                                }
-                            });
-                            recaptchaRendered = true;
-                        } catch (e) {
-                            console.error('recaptcha render error', e);
-                        }
-                    }
-                } else if (attempts >= maxAttempts) {
-                    clearInterval(interval);
-                    console.error('reCAPTCHA API failed to load after multiple attempts');
-                }
-            }, 300);
-        });
-    });
-</script>

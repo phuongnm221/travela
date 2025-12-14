@@ -36,30 +36,6 @@ class LoginController extends Controller
 
     public function register(Request $request)
     {
-        // verify reCAPTCHA v2 token
-        $recaptchaToken = $request->input('g-recaptcha-response');
-        if (empty($recaptchaToken)) {
-            return response()->json(['success' => false, 'message' => 'Vui lòng hoàn thành reCAPTCHA.']);
-        }
-        try {
-            $client = new \GuzzleHttp\Client();
-            $resp = $client->post('https://www.google.com/recaptcha/api/siteverify', [
-                'form_params' => [
-                    'secret' => env('RECAPTCHA_SECRET_KEY'),
-                    'response' => $recaptchaToken,
-                    'remoteip' => $request->ip(),
-                ]
-            ]);
-            $body = json_decode((string)$resp->getBody(), true);
-            \Log::info('reCAPTCHA siteverify response: ' . json_encode($body));
-            if (empty($body['success'])) {
-                return response()->json(['success' => false, 'message' => 'Xác thực reCAPTCHA thất bại.']);
-            }
-        } catch (\Exception $e) {
-            \Log::error('reCAPTCHA verify error: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Lỗi xác thực reCAPTCHA. Vui lòng thử lại.']);
-        }
-
         $fullname = $request->fullname_register ?? null;
         $username_regis = $request->username_register ?? $request->username_regis;
         $email = $request->email_register ?? $request->email;
