@@ -639,29 +639,7 @@ $(document).ready(function () {
     });
 
     // Áp dụng mã giảm giá
-    $(".btn-coupon").on("click", function (e) {
-        e.preventDefault();
-        const couponCode = $(".order-coupon input").val();
-
-        // Giả sử mã giảm giá là "DISCOUNT10" giảm 10%
-        if (couponCode === "DISCOUNT10") {
-            discount =
-                0.1 *
-                (parseInt($("#numAdults").val()) *
-                    $("#numAdults").data("price-adults") +
-                    parseInt($("#numChildren").val()) *
-                        $("#numChildren").data("price-children"));
-            toastr.success("Áp dụng mã giảm giá thành công!");
-        } else {
-            discount = 0;
-            toastr.error("Mã giảm giá không hợp lệ!");
-        }
-
-        $(".summary-item:nth-child(3) .total-price").text(
-            discount.toLocaleString() + " VNĐ"
-        );
-        updateSummary();
-    });
+    
 
     // Sự kiện khi thay đổi trạng thái checkbox
     $("#agree").on("change", function () {

@@ -24,7 +24,7 @@
 
                 <div class="form-group">
                     <label for="tel">Số điện thoại*</label>
-                    <input type="number" id="tel" placeholder="Nhập số điện thoại liên hệ" name="tel"
+                    <input type="tel" id="tel" placeholder="Nhập số điện thoại liên hệ" name="tel"
                         required>
                     <span class="error-message" id="telError"></span>
                 </div>
@@ -141,10 +141,7 @@
                         <input type="hidden" class="totalPrice" name="totalPrice" value="">
                     </div>
                 </div>
-                <div class="order-coupon">
-                    <input type="text" placeholder="Mã giảm giá" style="width: 65%;">
-                    <button style="width: 30%" class="booking-btn btn-coupon">Áp dụng</button>
-                </div>
+               
 
                 <div id="paypal-button-container"></div>
 

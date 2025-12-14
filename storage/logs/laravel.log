@@ -4448,3 +4448,9 @@
 #24 C:\\xampp\\htdocs\\travela\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\xampp\\\\htdocs...')
 #25 {main}
 "} 
+[2025-12-14 16:27:31] local.ERROR: Lỗi khi gọi API liên quan: cURL error 7: Failed to connect to 127.0.0.1 port 5555 after 2034 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:5555/api/user-recommendations?user_id=53  
+[2025-12-14 16:28:10] local.ERROR: Lỗi khi gọi API liên quan: cURL error 7: Failed to connect to 127.0.0.1 port 5555 after 2040 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:5555/api/user-recommendations?user_id=53  
+[2025-12-14 16:30:32] local.ERROR: Lỗi khi gọi API liên quan: cURL error 7: Failed to connect to 127.0.0.1 port 5555 after 2061 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:5555/api/user-recommendations?user_id=53  
+[2025-12-14 16:30:45] local.ERROR: Lỗi khi gọi API liên quan: cURL error 7: Failed to connect to 127.0.0.1 port 5555 after 2027 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:5555/api/user-recommendations?user_id=53  
+[2025-12-14 16:33:43] local.ERROR: Lỗi khi gọi API liên quan: cURL error 7: Failed to connect to 127.0.0.1 port 5555 after 2019 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:5555/api/tour-recommendations?tour_id=195  
+[2025-12-14 16:33:45] local.ERROR: Lỗi khi gọi API liên quan: cURL error 7: Failed to connect to 127.0.0.1 port 5555 after 2050 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:5555/api/tour-recommendations?tour_id=195  
