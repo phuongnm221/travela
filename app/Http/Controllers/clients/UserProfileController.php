@@ -25,11 +25,14 @@ class UserProfileController extends Controller
 
     public function update(Request $req)
     {
+        // Accept both 'phone' and 'phoneNumber' field names in validation
+        $phoneField = $req->has('phoneNumber') ? 'phoneNumber' : 'phone';
+        
         $req->validate([
             'fullName' => 'required|string|max:255',
             'address' => 'nullable|string|max:255',
             'email' => 'required|email|max:255',
-            'phoneNumber' => 'required|regex:/^\d{10}$/',
+            $phoneField => 'required|regex:/^\d{10}$/',
         ]);
 
         $fullName = $req->fullName;
