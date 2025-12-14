@@ -143,7 +143,7 @@
                                                 } elseif (Str::startsWith($avatar, 'clients/')) {
                                                     $avatarUrl = asset($avatar);
                                                 } else {
-                                                    $avatarUrl = asset('clients/assets/images/user-profile/' . $avatar);
+                                                    $avatarUrl = asset('assets/images/user-profile/' . $avatar);
                                                 }
                                             @endphp
                                             <img id="avatarPreview" class="img-account-profile rounded-circle"
