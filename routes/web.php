@@ -163,6 +163,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     //Contact management
     Route::get('/contact', [ContactManagementController::class, 'index'])->name('admin.contact');
     Route::post('/reply-contact', [ContactManagementController::class, 'replyContact'])->name('admin.reply-contact');
+    Route::post('/delete-contact', [ContactManagementController::class, 'deleteContact'])->name('admin.delete-contact');
 
     //Staff management
     Route::get('/staff', [StaffManagementController::class, 'index'])->name('admin.staff.index');
