@@ -75,11 +75,11 @@
                                                     <button id="compose" class="btn btn-sm btn-primary"
                                                         type="button"><i class="fa fa-reply"></i> Reply</button>
 
-                                                    <button class="btn btn-sm btn-default" type="button"
-                                                        data-placement="top" data-toggle="tooltip"
-                                                        data-original-title="Trash"><i
-                                                            class="fa fa-trash-o"></i></button>
-                                                </div>
+                                                    <button id="btn-trash-confirm" class="btn btn-sm btn-default" type="button"
+                                                        data-placement="top" data-toggle="popover"
+                                                        data-original-title="Trash" title="Xóa tin nhắn">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </button>
                                             </div>
 
                                         </div>
