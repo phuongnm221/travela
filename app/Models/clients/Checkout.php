@@ -11,10 +11,14 @@ class Checkout extends Model
     use HasFactory;
 
     protected $table = 'tbl_checkout';
+    protected $primaryKey = 'checkoutId';
+    public $timestamps = false;
+
 
     public function createCheckout($data)
     {
         // Chèn dữ liệu và trả về ID của bản ghi vừa tạo
         return DB::table($this->table)->insertGetId($data);
     }
+    
 }

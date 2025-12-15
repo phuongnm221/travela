@@ -797,6 +797,57 @@ $(document).ready(function () {
             $("#btn-momo-payment").hide();
         }
     });
+    $('input[name="payment"]').on('change', function () {
+        const paymentMethod = $(this).val();
+
+        // sync hidden input
+        $("#payment_hidden").val(paymentMethod);
+        console.log('payment_hidden =', paymentMethod);
+
+        // reset UI
+        $("#paypal-button-container").empty();
+        $("#btn-momo-payment").hide();
+        $(".btn-submit-booking").show(); // ✅ LUÔN cho submit
+
+        // PayPal
+        if (paymentMethod === "paypal-payment") {
+            $(".btn-submit-booking").hide();
+
+            var totalPricePayment = totalPrice / 25000;
+
+            paypal.Buttons({
+                createOrder: function (data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: { value: totalPricePayment.toFixed(2) }
+                        }]
+                    });
+                },
+                onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (details) {
+                        $("<input>", {
+                            type: "hidden",
+                            name: "transactionIdPaypal",
+                            value: details.id
+                        }).appendTo("form");
+
+                        toastr.success("Thanh toán PayPal thành công!");
+                        $(".btn-submit-booking").show();
+                    });
+                }
+            }).render("#paypal-button-container");
+        }
+
+        // MoMo
+        if (paymentMethod === "momo-payment") {
+            $(".btn-submit-booking").hide();
+            $("#btn-momo-payment").show();
+        }
+
+        // Stripe → KHÔNG cần JS
+        // Stripe xử lý 100% ở backend
+    });
+
 
     // Save form data to localStorage before payment
     $("#btn-momo-payment").click(function (e) {

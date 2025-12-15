@@ -11,6 +11,8 @@ class Booking extends Model
     use HasFactory;
 
     protected $table = 'tbl_booking';
+    protected $primaryKey = 'bookingId';
+    public $timestamps = false;          
 
     public function createBooking($data)
     {
