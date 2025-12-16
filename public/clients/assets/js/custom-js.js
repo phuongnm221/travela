@@ -290,10 +290,33 @@ $(document).ready(function () {
     /****************************************
      *              HOME PAGE             *
      * ***************************************/
-    $("#start_date, #end_date").datetimepicker({
-        format: "d/m/Y",
-        timepicker: false,
-    });
+    $("#start_date").datetimepicker({
+    format: "d/m/Y",
+    timepicker: false,
+    minDate: 0,
+    onShow: function () {
+        this.setOptions({
+            maxDate: $("#end_date").val() ? $("#end_date").val() : false
+        });
+    },
+    onSelectDate: function (ct) {
+        $("#end_date").datetimepicker("setOptions", {
+            minDate: ct
+        });
+    }
+});
+
+$("#end_date").datetimepicker({
+    format: "d/m/Y",
+    timepicker: false,
+    minDate: 0,
+    onShow: function () {
+        this.setOptions({
+            minDate: $("#start_date").val() ? $("#start_date").val() : 0
+        });
+    }
+});
+
     /****************************************
      *              HEADER                  *
      * ***************************************/
