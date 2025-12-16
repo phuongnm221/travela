@@ -12,26 +12,29 @@
             <div class="booking__infor">
                 <div class="form-group">
                     <label for="username">Họ và tên*</label>
-                    <input type="text" id="username" placeholder="Nhập Họ và tên" name="fullName" required>
+                    <input type="text" id="username" placeholder="Nhập Họ và tên" name="fullName"
+                    value="{{ $user->fullName }}" required>
                     <span class="error-message" id="usernameError"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email*</label>
-                    <input type="email" id="email" placeholder="sample@gmail.com" name="email" required>
+                    <input type="email" id="email" placeholder="sample@gmail.com" name="email"
+                    value="{{ $user->email }}" required>
                     <span class="error-message" id="emailError"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="tel">Số điện thoại*</label>
                     <input type="tel" id="tel" placeholder="Nhập số điện thoại liên hệ" name="tel"
-                        required>
+                       value="{{ $user->phoneNumber }}" required>
                     <span class="error-message" id="telError"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="address">Địa chỉ*</label>
-                    <input type="text" id="address" placeholder="Nhập địa chỉ liên hệ" name="address" required>
+                    <input type="text" id="address" placeholder="Nhập địa chỉ liên hệ" name="address"
+                    value="{{ $user->address }}" required>
                     <span class="error-message" id="addressError"></span>
                 </div>
 

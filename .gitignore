@@ -1,0 +1,6 @@
+.env
+/vendor
+.vs/
+bootstrap/cache
+storage/framework
+storage/logs

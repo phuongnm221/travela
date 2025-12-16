@@ -28,20 +28,25 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
-                                    <section class="content invoice">
+                                    <section class="content invoice" id="print-area">
                                         <!-- title row -->
-                                        <div class="row">
-                                            <div class="  invoice-header">
-                                                <h3>
-                                                    <img src="{{ asset('admin/assets/images/icon/icon_office.png') }}"
-                                                        alt=""
-                                                        style="margin-right: 10px">{{ $invoice_booking->title }}
-                                                    <small class="pull-right">Ngày:
-                                                        {{ date('d-m-Y', strtotime($invoice_booking->bookingDate)) }}</small>
-                                                </h3>
-                                            </div>
+                                        <div class="invoice-header-fixed">
+    <div class="invoice-title">
+        <img src="{{ asset('admin/assets/images/icon/icon_office.png') }}"
+            style="margin-right:10px">
+        {{ $invoice_booking->title }}
+    </div>
+
+    <div class="invoice-date">
+        Ngày: {{ date('d-m-Y', strtotime($invoice_booking->bookingDate)) }}
+    </div>
+</div>
+
+
+
+
+
                                             <!-- /.col -->
-                                        </div>
                                         <!-- info row -->
                                         <div class="row invoice-info">
                                             <div class="col-sm-4 invoice-col">
@@ -206,3 +211,26 @@
     </div>
 </div>
 @include('admin.blocks.footer')
+<style>
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #print-area,
+    #print-area * {
+        visibility: visible;
+    }
+
+    #print-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+}
+
+</style>
+
+
+

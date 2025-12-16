@@ -377,3 +377,94 @@
     text-overflow: ellipsis; /* Thêm dấu ba chấm vào cuối */
     word-break: break-word; /* Đảm bảo từ không bị tràn ra ngoài */
 }
+
+/* Make all team guide cards have equal image height and consistent crop */
+.team-item {
+    position: relative;
+    overflow: hidden;
+}
+.team-item img {
+    display: block;
+    width: 100%;
+    height: 320px; /* default desktop height */
+    object-fit: cover; /* crop to fill while keeping aspect ratio */
+    border-radius: 10px;
+}
+
+/* Slightly smaller on large but not extra-large screens */
+@media only screen and (max-width: 1299px) {
+    .team-item img { height: 280px; }
+}
+@media only screen and (max-width: 991px) {
+    .team-item img { height: 240px; }
+}
+@media only screen and (max-width: 767px) {
+    .team-item img { height: 200px; }
+}
+@media only screen and (max-width: 575px) {
+    .team-item img { height: 180px; }
+}
+
+/* Ensure the content box stays visible on top of image */
+.team-item .content {
+    z-index: 2;
+}
+
+/* Override hero title sizing so the banner title fits better on one line */
+.hero-title {
+    font-size: 84px !important; /* giảm ~30% so với 120px */
+    line-height: 1.02 !important;
+    text-transform: none !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    padding: 0 10px;
+    color: #ffffff !important; /* ensure visible on dark background */
+    position: relative !important;
+    z-index: 5 !important;
+    text-shadow: 0 4px 18px rgba(0,0,0,0.6);
+}
+
+@media only screen and (max-width: 1599px) {
+    .hero-title { font-size: 63px !important; }
+}
+@media only screen and (max-width: 1299px) {
+    .hero-title { font-size: 50px !important; }
+}
+@media only screen and (max-width: 991px) {
+    .hero-title { font-size: 42px !important; }
+}
+@media only screen and (max-width: 767px) {
+    .hero-title { white-space: normal !important; font-size: 32px !important; }
+}
+@media only screen and (max-width: 375px) {
+    .hero-title { font-size: 23px !important; }
+}
+
+/* Ghi đè khoảng cách: đẩy thanh tìm kiếm (và ảnh nền) lên gần tiêu đề hơn */
+.search-filter-inner {
+    margin-top: -40px !important; /* giảm khoảng cách (lớn hơn -25) */
+}
+
+@media only screen and (max-width: 767px) {
+    .search-filter-inner { margin-top: -25px !important; }
+}
+
+/* Make search form labels and fields more readable */
+.search-filter-inner .filter-item .title {
+    font-size: 16px !important;
+    font-weight: 600;
+}
+.search-filter-inner .filter-item select,
+.search-filter-inner .filter-item .nice-select .current,
+.search-filter-inner .filter-item input.datetimepicker,
+.search-filter-inner .filter-item input {
+    font-size: 18px !important;
+}
+
+@media only screen and (max-width: 767px) {
+    .search-filter-inner .filter-item .title { font-size: 15px !important; }
+    .search-filter-inner .filter-item select,
+    .search-filter-inner .filter-item .nice-select .current,
+    .search-filter-inner .filter-item input { font-size: 16px !important; }
+}

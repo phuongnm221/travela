@@ -62,3 +62,18 @@
 .mail_view{
     display: none;
 }
+.invoice-header-fixed {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.invoice-header-fixed .invoice-title {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.invoice-header-fixed .invoice-date {
+    white-space: nowrap;
+}

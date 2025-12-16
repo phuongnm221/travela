@@ -75,4 +75,3 @@ class ContactManagementController extends Controller
         }
     }
 }
-}

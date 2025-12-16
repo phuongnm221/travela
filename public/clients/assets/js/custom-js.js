@@ -290,10 +290,42 @@ $(document).ready(function () {
     /****************************************
      *              HOME PAGE             *
      * ***************************************/
-    $("#start_date, #end_date").datetimepicker({
-        format: "d/m/Y",
-        timepicker: false,
-    });
+    $("#start_date").datetimepicker({
+    format: "d/m/Y",
+    timepicker: false,
+    minDate: 0,
+    onSelectDate: function (ct) {
+
+        // Set minDate cho end_date
+        $("#end_date").datetimepicker("setOptions", {
+            minDate: ct
+        });
+
+        // Nếu end_date < start_date → set end_date = start_date
+        let endVal = $("#end_date").val();
+        if (endVal) {
+            let parts = endVal.split("/");
+            let endDate = new Date(parts[2], parts[1] - 1, parts[0]);
+
+            if (endDate < ct) {
+                $("#end_date").val(
+                    ("0" + ct.getDate()).slice(-2) + "/" +
+                    ("0" + (ct.getMonth() + 1)).slice(-2) + "/" +
+                    ct.getFullYear()
+                );
+            }
+        }
+    }
+});
+
+$("#end_date").datetimepicker({
+    format: "d/m/Y",
+    timepicker: false,
+    minDate: 0
+});
+
+
+
     /****************************************
      *              HEADER                  *
      * ***************************************/
@@ -745,6 +777,57 @@ $(document).ready(function () {
         $("#payment_hidden").val(paymentMethod);
         
     });
+    $('input[name="payment"]').on('change', function () {
+        const paymentMethod = $(this).val();
+
+        // sync hidden input
+        $("#payment_hidden").val(paymentMethod);
+        console.log('payment_hidden =', paymentMethod);
+
+        // reset UI
+        $("#paypal-button-container").empty();
+        $("#btn-momo-payment").hide();
+        $(".btn-submit-booking").show(); // ✅ LUÔN cho submit
+
+        // PayPal
+        if (paymentMethod === "paypal-payment") {
+            $(".btn-submit-booking").hide();
+
+            var totalPricePayment = totalPrice / 25000;
+
+            paypal.Buttons({
+                createOrder: function (data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: { value: totalPricePayment.toFixed(2) }
+                        }]
+                    });
+                },
+                onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (details) {
+                        $("<input>", {
+                            type: "hidden",
+                            name: "transactionIdPaypal",
+                            value: details.id
+                        }).appendTo("form");
+
+                        toastr.success("Thanh toán PayPal thành công!");
+                        $(".btn-submit-booking").show();
+                    });
+                }
+            }).render("#paypal-button-container");
+        }
+
+        // MoMo
+        if (paymentMethod === "momo-payment") {
+            $(".btn-submit-booking").hide();
+            $("#btn-momo-payment").show();
+        }
+
+        // Stripe → KHÔNG cần JS
+        // Stripe xử lý 100% ở backend
+    });
+
 
     // Save form data to localStorage before payment
   

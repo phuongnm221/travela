@@ -20,7 +20,7 @@ class BookingController extends Controller
 
     public function __construct()
     {
-        parent::__construct(); // Gọi constructor của Controller để khởi tạo $user
+        parent::__construct();
         $this->tour = new Tours();
         $this->booking = new Booking();
         $this->checkout = new Checkout();
@@ -28,7 +28,6 @@ class BookingController extends Controller
 
     public function index($id)
     {
-
         $title = 'Đặt Tour';
         $tour = $this->tour->getTourDetail($id);
         return view('clients.booking', compact('title', 'tour'));
@@ -135,6 +134,9 @@ class BookingController extends Controller
                 toastr()->error('Phương thức thanh toán không hợp lệ.');
                 return redirect()->back();
         }
+
+        $title = 'Thanh toán thất bại';
+        return view('clients.booking', compact('title', 'tour'));
     }
 
     public function confirmAfterPaid(int $bookingId)
@@ -168,12 +170,9 @@ class BookingController extends Controller
     public function checkBooking(Request $req){
         $tourId = $req->tourId;
         $userId = $this->getUserId();
-        $check = $this->booking->checkBooking($tourId,$userId);
-        if (!$check) {
-            return response()->json(['success' => false]);
-        }
-        return response()->json(['success' => true]);
-    }
+        $check = $this->booking->checkBooking($tourId, $userId);
 
+        return response()->json(['success' => (bool)$check]);
+    }
 }
 

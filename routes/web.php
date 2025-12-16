@@ -27,6 +27,14 @@ use App\Http\Controllers\clients\SearchController;
 use App\Http\Controllers\clients\TourBookedController;
 use App\Http\Controllers\clients\PaymentController;
 
+
+
+Route::post('/booking/create', [BookingController::class, 'createBooking'])->name('booking.create');
+
+Route::post('/stripe/checkout', [BookingController::class, 'createStripeCheckout'])->name('stripe.checkout');
+Route::get('/stripe/success', [BookingController::class, 'stripeSuccess'])->name('stripe.success');
+Route::get('/stripe/cancel', [BookingController::class, 'stripeCancel'])->name('stripe.cancel');
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
