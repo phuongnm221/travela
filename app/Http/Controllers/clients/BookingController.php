@@ -31,7 +31,12 @@ class BookingController extends Controller
         $title = 'Đặt Tour';
         $tour  = $this->tour->getTourDetail($id);
         $transIdMomo = null;
-        return view('clients.booking', compact('title','tour','transIdMomo'));
+        $user = null;
+        $userId = $this->getUserId();
+        if ($userId) {
+            $user = $this->user->getUser($userId);
+        }
+        return view('clients.booking', compact('title','tour','transIdMomo','user'));
 
     }
 
