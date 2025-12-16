@@ -73,6 +73,7 @@
                             toán</a></label>
                 </div>
             </div>
+            
             <!-- Payment Method -->
             <h2 class="booking-header">Phương Thức Thanh Toán</h2>
 
@@ -83,18 +84,15 @@
             </label>
 
             <label class="payment-option">
-                <input type="radio" name="payment" value="paypal-payment" required>
-                <img src="{{ asset('clients/assets/images/booking/cong-thanh-toan-paypal.jpg') }}" alt="PayPal">
-                Thanh toán bằng PayPal
+                <input type="radio" name="payment" value="vnpay-payment" required>
+                <img src="{{ asset('clients/assets/images/booking/logo-vnpay.png') }}" alt="VNPAY">
+                Thanh toán bằng VNPAY
             </label>
 
             <label class="payment-option">
-                <input type="radio" name="payment" value="momo-payment" required>
-                <img src="{{ asset('clients/assets/images/booking/thanh-toan-momo.jpg') }}" alt="MoMo">
-                Thanh toán bằng Momo
-                @if (!is_null($transIdMomo))
-                    <input type="hidden" name="transactionIdMomo" value="{{ $transIdMomo }}">
-                @endif
+                <input type="radio" name="payment" value="stripe-payment" required>
+                <img src="{{ asset('clients/assets/images/booking/logo-vnpay.png') }}" alt="VNPAY">
+                Thanh toán bằng Stripe
             </label>
 
             <input type="hidden" name="payment_hidden" id="payment_hidden">
@@ -129,12 +127,6 @@
                             <span class="total-price">0 VNĐ</span>
                         </div>
                     </div>
-                    <div class="summary-item">
-                        <span>Giảm giá:</span>
-                        <div>
-                            <span class="total-price">0 VNĐ</span>
-                        </div>
-                    </div>
                     <div class="summary-item total-price">
                         <span>Tổng cộng:</span>
                         <span>0 VNĐ</span>
@@ -142,18 +134,27 @@
                     </div>
                 </div>
                
-
-                <div id="paypal-button-container"></div>
-
                 <button type="submit" class="booking-btn btn-submit-booking">Xác Nhận</button>
-
-                <button id="btn-momo-payment" class="booking-btn" style="display: none;"
-                    data-urlmomo = "{{ route('createMomoPayment') }}">Thanh toán với Momo <img src="{{ asset('clients/assets/images/booking/icon-thanh-toan-momo.png') }}" alt="" style="width: 10%"></button>
 
             </div>
         </div>
     </form>
 </section>
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const hidden = document.getElementById('payment_hidden');
+  const radios = document.querySelectorAll('input[name="payment"]');
+
+  function syncPayment() {
+    const selected = document.querySelector('input[name="payment"]:checked');
+    hidden.value = selected ? selected.value : '';
+    console.log('payment_hidden =', hidden.value);
+  }
+
+  radios.forEach(r => r.addEventListener('change', syncPayment));
+  syncPayment();
+});
+</script>
 
 @include('clients.blocks.footer')

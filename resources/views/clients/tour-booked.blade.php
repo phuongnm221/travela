@@ -61,15 +61,15 @@
             </label>
 
             <label class="payment-option">
-                <input type="radio" value="paypal-payment" @if ($tour_booked->paymentMethod == 'paypal-payment') checked @endif disabled>
+                <input type="radio" value="vnpay-payment" @if ($tour_booked->paymentMethod == 'vnpay-payment') checked @endif disabled>
                 <img src="{{ asset('clients/assets/images/booking/cong-thanh-toan-paypal.jpg') }}" alt="PayPal">
-                Thanh toán bằng PayPal
+                Thanh toán bằng VNPAY
             </label>
 
             <label class="payment-option">
-                <input type="radio" value="momo-payment" @if ($tour_booked->paymentMethod == 'momo-payment') checked @endif disabled>
+                <input type="radio" value="stripe-payment" @if ($tour_booked->paymentMethod == 'stripe-payment') checked @endif disabled>
                 <img src="{{ asset('clients/assets/images/booking/thanh-toan-momo.jpg') }}" alt="MoMo">
-                Thanh toán bằng Momo
+                Thanh toán bằng STRIPE
             </label>
 
         </div>

@@ -11,12 +11,16 @@ class Booking extends Model
     use HasFactory;
 
     protected $table = 'tbl_booking';
-
+    protected $primaryKey = 'bookingId';
+    public $timestamps = false;
+    
     public function createBooking($data)
     {
         // Chèn dữ liệu và trả về ID của bản ghi vừa tạo
         return DB::table($this->table)->insertGetId($data);
     }
+
+
 
     public function cancelBooking($bookingId){
         return DB::table($this->table)
@@ -33,4 +37,6 @@ class Booking extends Model
         ->where('bookingStatus', 'f')
         ->exists(); // Trả về true nếu bản ghi tồn tại, false nếu không tồn tại
     }
+
+    
 }

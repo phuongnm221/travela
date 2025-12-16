@@ -11,7 +11,8 @@ class Tours extends Model
     use HasFactory;
 
     protected $table = 'tbl_tours';
-
+    protected $primaryKey = 'tourId'; // 👈 CỰC KỲ QUAN TRỌNG
+    public $timestamps = false;
     //Lấy tất cả tours
     public function getAllTours($perPage = 9)
     {

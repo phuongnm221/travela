@@ -25,6 +25,7 @@ use App\Http\Controllers\clients\MyTourController;
 use App\Http\Controllers\clients\PayPalController;
 use App\Http\Controllers\clients\SearchController;
 use App\Http\Controllers\clients\TourBookedController;
+use App\Http\Controllers\clients\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,17 +77,17 @@ Route::post('/change-avatar-profile', [UserProfileController::class, 'changeAvat
 //Hanlde checkout
 Route::post('/booking/{id?}', [BookingController::class, 'index'])->name('booking')->middleware('checkLoginClient');
 Route::post('/create-booking', [BookingController::class, 'createBooking'])->name('create-booking');
-Route::get('/booking', [BookingController::class, 'handlePaymentMomoCallback'])->name('handlePaymentMomoCallback');
 
-//Payment with paypal
-Route::get('create-transaction', [PayPalController::class, 'createTransaction'])->name('createTransaction');
-Route::get('process-transaction', [PayPalController::class, 'processTransaction'])->name('processTransaction');
-Route::get('success-transaction', [PayPalController::class, 'successTransaction'])->name('successTransaction');
-Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
+//Payment with Stripe
+Route::get('/stripe/checkout', [PaymentController::class, 'createStripePayment'])->name('stripe.checkout');
+Route::get('/stripe-success', [PaymentController::class, 'stripeSuccess'])->name('stripe.success');
+Route::get('/stripe-cancel', [PaymentController::class, 'stripeCancel'])->name('stripe.cancel');
 
-//Payment with Momo
-Route::post('/create-momo-payment', [BookingController::class, 'createMomoPayment'])->name('createMomoPayment');
 
+
+//Payment with VNPAY
+Route::get('/create-vnpay-payment', [PaymentController::class, 'createVnpayPayment'])->name('createVnpayPayment');
+Route::get('/vnpay-payment-return', [PaymentController::class, 'handleVnpayReturn'])->name('handleVnpayReturn');
 
 //Tour booked
 Route::get('/tour-booked', [TourBookedController::class, 'index'])->name('tour-booked')->middleware('checkLoginClient');
