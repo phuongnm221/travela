@@ -28,7 +28,7 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
-                                    <section class="content invoice">
+                                    <section class="content invoice" id="print-area">
                                         <!-- title row -->
                                         <div class="invoice-header-fixed">
     <div class="invoice-title">
@@ -211,3 +211,26 @@
     </div>
 </div>
 @include('admin.blocks.footer')
+<style>
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #print-area,
+    #print-area * {
+        visibility: visible;
+    }
+
+    #print-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+}
+
+</style>
+
+
+
