@@ -294,28 +294,37 @@ $(document).ready(function () {
     format: "d/m/Y",
     timepicker: false,
     minDate: 0,
-    onShow: function () {
-        this.setOptions({
-            maxDate: $("#end_date").val() ? $("#end_date").val() : false
-        });
-    },
     onSelectDate: function (ct) {
+
+        // Set minDate cho end_date
         $("#end_date").datetimepicker("setOptions", {
             minDate: ct
         });
+
+        // Nếu end_date < start_date → set end_date = start_date
+        let endVal = $("#end_date").val();
+        if (endVal) {
+            let parts = endVal.split("/");
+            let endDate = new Date(parts[2], parts[1] - 1, parts[0]);
+
+            if (endDate < ct) {
+                $("#end_date").val(
+                    ("0" + ct.getDate()).slice(-2) + "/" +
+                    ("0" + (ct.getMonth() + 1)).slice(-2) + "/" +
+                    ct.getFullYear()
+                );
+            }
+        }
     }
 });
 
 $("#end_date").datetimepicker({
     format: "d/m/Y",
     timepicker: false,
-    minDate: 0,
-    onShow: function () {
-        this.setOptions({
-            minDate: $("#start_date").val() ? $("#start_date").val() : 0
-        });
-    }
+    minDate: 0
 });
+
+
 
     /****************************************
      *              HEADER                  *
