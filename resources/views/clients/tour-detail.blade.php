@@ -252,7 +252,7 @@
                         <h5 class="widget-title">Cần trợ giúp?</h5>
                         <ul class="list-style-one">
                             <li><i class="far fa-envelope"></i> <a
-                                    href="emilto:minhdien.dev@gmail.com">minhdien.dev@gmail.com</a></li>
+                                    href="emilto:maidvt1401@gmail.com">maidvt1401@gmail.com</a></li>
                             <li><i class="far fa-phone-volume"></i> <a href="callto:+000(123)45688">+000 (123) 456
                                     88</a></li>
                         </ul>
