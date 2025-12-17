@@ -120,6 +120,8 @@ class PaymentController extends Controller
 
         // 3️⃣ Lấy bookingId từ checkout
         $checkout = Checkout::where('checkoutId', $checkoutId)->first();
+        $bookingId = $checkout->bookingId;
+
         if (!$checkout) {
             toastr()->error('Không tìm thấy đơn thanh toán');
             return redirect('/');
@@ -132,25 +134,38 @@ class PaymentController extends Controller
         ]);
         }
 
-        $bookingId = $checkout->bookingId;
-
         //4. Kiểm tra trạng thái và cập nhật
+        //thanh toán thất bại
         if ($request->vnp_ResponseCode !== '00') {
             toastr()->error('Thanh toán VNPAY thất bại');
             return redirect()->route('home');
         }
         
+        //thanh toán thành công
+        
         DB::transaction(function () use ($request, $checkout) {
-        // 5️⃣ Update checkout (GIỐNG STRIPE)
+        
+        //LẤY BOOKING
+
+        $booking = Booking::where('bookingId', $checkout->bookingId)
+                ->lockForUpdate()
+                ->first();
+        
+        //TRỪ SỐ LƯỢNG TOUR
+        $totalPeople = $booking->numAdults + $booking->numChildren;
+
+        Tours::where('tourId', $booking->tourId)
+            ->lockForUpdate()
+            ->decrement('quantity', $totalPeople); 
+        
+        // 5️⃣ Update checkout 
         $checkout->update([
             'paymentStatus' => 'y',
             'transactionId' => $request->vnp_TransactionNo,
         ]);
 
         // 6️⃣ Confirm booking
-        Booking::where('bookingId', $checkout->bookingId)->update([
-            'bookingStatus' => 'y',
-        ]);
+        Booking::where('bookingId', $checkout->bookingId)->update([ 'bookingStatus' => 'y', ]);
         });
 
         toastr()->success('Thanh toán VNPAY thành công!');
@@ -212,9 +227,16 @@ class PaymentController extends Controller
         $bookingId  = (int)($session->metadata->bookingId ?? 0);
         $tourId     = (int)($session->metadata->tourId ?? 0);
 
-        if ($checkoutId <= 0 || $bookingId <= 0 || $tourId <= 0) {
-            toastr()->error('Không xác định được đơn thanh toán.');
-            return redirect()->route('home');
+        $transactionId = $session->payment_intent ?? $session->id;
+        $checkout = Checkout::where('checkoutId', $checkoutId)->first();
+        $booking= Booking::where('bookingId', $bookingId)->first();
+
+        $totalPeople = $booking->numAdults + $booking->numChildren;
+        if ($checkout->paymentStatus === 'y') {
+            return redirect()->route('tour-booked', [
+            'bookingId'  => $checkout->bookingId,
+            'checkoutId' => $checkoutId,
+        ]);
         }
 
         if (($session->payment_status ?? '') !== 'paid') {
@@ -225,20 +247,19 @@ class PaymentController extends Controller
             ]);
         }
 
-        $transactionId = $session->payment_intent ?? $session->id;
 
-        Checkout::where('checkoutId', $checkoutId)->update([
-            'paymentStatus' => 'y',
-            'transactionId' => $transactionId,
-        ]);
-        // Auto confirm booking vì đã thanh toán online
-        Booking::where('bookingId', $bookingId)->update([
-            'bookingStatus' => 'y', // confirmed
-        ]);
-
-
-
+        Tours::where('tourId', $booking->tourId)
+            ->lockForUpdate()
+            ->decrement('quantity', $totalPeople); 
         
+        // 5️⃣ Update checkout 
+        $checkout->update([
+            'paymentStatus' => 'y',
+            'transactionId' => $request->vnp_TransactionNo,
+        ]);
+
+        // 6️⃣ Confirm booking
+        Booking::where('bookingId', $bookingId)->update([ 'bookingStatus' => 'y', ]);;
 
         toastr()->success('Thanh toán Stripe thành công!');
         return redirect()->route('tour-booked', [
