@@ -14,6 +14,14 @@ class Checkout extends Model
     protected $primaryKey = 'checkoutId';
     public $timestamps = false;
 
+    protected $fillable = [
+        'paymentStatus',
+        'transactionId',
+        'bookingId',
+        'tourId',
+        // thêm các cột bạn cần update
+    ];
+
     public function createCheckout($data)
     {
         // Chèn dữ liệu và trả về ID của bản ghi vừa tạo

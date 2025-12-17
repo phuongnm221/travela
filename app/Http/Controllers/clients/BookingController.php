@@ -30,7 +30,12 @@ class BookingController extends Controller
     {
         $title = 'Đặt Tour';
         $tour = $this->tour->getTourDetail($id);
-        return view('clients.booking', compact('title', 'tour'));
+        $user = null;
+        $userId = $this->getUserId();
+        if ($userId) {
+            $user = $this->user->getUser($userId);
+        }
+        return view('clients.booking', compact('title', 'tour', 'user'));
     }
 
     public function createBooking(Request $req)
@@ -85,6 +90,7 @@ class BookingController extends Controller
                 'numChildren' => $numChildren,
                 'phoneNumber' => $tel,
                 'totalPrice' => $totalPrice,
+                'bookingStatus' => 'b', // booked
             ];
         
             $bookingId = $this->booking->createBooking($booking);
@@ -94,7 +100,7 @@ class BookingController extends Controller
                 'bookingId' => $bookingId,
                 'paymentMethod' => $paymentMethod,
                 'amount' => $totalPrice,
-                'paymentStatus' => 'pending', // Chưa thanh toán
+                'paymentStatus' => 'n', // Chưa thanh toán
             ];
             
             $checkoutId = $this->checkout->createCheckout($checkout);
@@ -154,7 +160,7 @@ class BookingController extends Controller
             ]);
 
             Checkout::where('bookingId', $bookingId)
-                ->update(['paymentStatus' => 'paid']);
+                ->update(['paymentStatus' => 'n']);
 
             // Trừ số lượng tour
             $tour = Tours::lockForUpdate()->find($booking->tourId);
