@@ -88,13 +88,13 @@
 
             <label class="payment-option">
                 <input type="radio" name="payment" value="vnpay-payment" required>
-                <img src="{{ asset('clients/assets/images/booking/logo-vnpay.png') }}" alt="VNPAY">
+                <img src="{{ asset('clients/assets/images/booking/vnpay.png') }}" alt="VNPAY">
                 Thanh toán bằng VNPAY
             </label>
 
             <label class="payment-option">
                 <input type="radio" name="payment" value="stripe-payment" required>
-                <img src="{{ asset('clients/assets/images/booking/logo-vnpay.png') }}" alt="VNPAY">
+                <img src="{{ asset('clients/assets/images/booking/Stripe-Logo.png') }}" alt="VNPAY">
                 Thanh toán bằng Stripe
             </label>
 

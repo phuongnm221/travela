@@ -62,13 +62,13 @@
 
             <label class="payment-option">
                 <input type="radio" value="vnpay-payment" @if ($tour_booked->paymentMethod == 'vnpay-payment') checked @endif disabled>
-                <img src="{{ asset('clients/assets/images/booking/cong-thanh-toan-paypal.jpg') }}" alt="PayPal">
+                <img src="{{ asset('clients/assets/images/booking/vnpay.png') }}" alt="vnpay">
                 Thanh toán bằng VNPAY
             </label>
 
             <label class="payment-option">
                 <input type="radio" value="stripe-payment" @if ($tour_booked->paymentMethod == 'stripe-payment') checked @endif disabled>
-                <img src="{{ asset('clients/assets/images/booking/thanh-toan-momo.jpg') }}" alt="MoMo">
+                <img src="{{ asset('clients/assets/images/booking/Stripe-Logo.png') }}" alt="Stripe">
                 Thanh toán bằng STRIPE
             </label>
 
