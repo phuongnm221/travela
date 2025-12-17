@@ -7,6 +7,10 @@ use App\Models\admin\BookingModel;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Models\clients\Booking;
+use App\Models\clients\Checkout;
+use App\Models\clients\Tours;
+use Illuminate\Support\Facades\DB;
 
 class BookingManagementController extends Controller
 {
@@ -29,31 +33,6 @@ class BookingManagementController extends Controller
         return view('admin.booking', compact('title', 'list_booking'));
     }
 
-    public function confirmBooking(Request $request)
-    {
-        $bookingId = $request->bookingId;
-
-        $dataConfirm = [
-            'bookingStatus' => 'y'
-        ];
-
-        $result = $this->booking->updateBooking($bookingId, $dataConfirm);
-
-        if ($result) {
-            $list_booking = $this->booking->getBooking();
-            $list_booking = $this->updateHideBooking($list_booking);
-            return response()->json([
-                'success' => true,
-                'message' => 'Cập nhật trạng thái thành công.',
-                'data' => view('admin.partials.list-booking', compact('list_booking'))->render()
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Cập nhật thất bại.'
-            ], 500);
-        }
-    }
 
     public function showDetail($bookingId)
     {
@@ -62,10 +41,8 @@ class BookingManagementController extends Controller
         $invoice_booking = $this->booking->getInvoiceBooking($bookingId);
         // dd($invoice_booking);
         $hide='hide';
-        if ($invoice_booking->transactionId == null) {
-            $invoice_booking->transactionId = 'Thanh toán tại công ty Travela';
-        }
-        if ($invoice_booking->paymentStatus === 'n') {
+        if ($invoice_booking->paymentMethod === 'office-payment'
+            && $invoice_booking->paymentStatus === 'n') {
             $hide = '';
         }
         return view('admin.booking-detail', compact('title', 'invoice_booking','hide'));
@@ -102,54 +79,71 @@ class BookingManagementController extends Controller
 
     }
 
-    public function finishBooking(Request $request)
+
+    public function receivedMoney(Request $request)
     {
-        $bookingId = $request->bookingId;
+        $bookingId = (int) $request->bookingId;
 
-        $dataConfirm = [
-            'bookingStatus' => 'f'
-        ];
+        DB::beginTransaction();
+        try {
+            // 1️⃣ Lock booking
+            $booking = Booking::lockForUpdate()->findOrFail($bookingId);
 
-        $result = $this->booking->updateBooking($bookingId, $dataConfirm);
+            // Nếu đã confirm rồi → bỏ qua
+            if ($booking->bookingStatus === 'y') {
+                DB::rollBack();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Booking đã được xác nhận trước đó.',
+                ]);
+            }
 
-        if ($result) {
-            $list_booking = $this->booking->getBooking();
-            $list_booking = $this->updateHideBooking($list_booking);
+            // 2️⃣ Lock checkout
+            $checkout = Checkout::lockForUpdate()
+                ->where('bookingId', $bookingId)
+                ->firstOrFail();
+            
+            if ($checkout->paymentMethod !== 'office-payment') {
+                    throw new \Exception('Đơn này không thanh toán tại văn phòng.');
+                }
+
+            // 3️⃣ Update checkout (đã nhận tiền)
+            $checkout->update([
+                'paymentStatus' => 'y'
+            ]);
+
+            // 4️⃣ Confirm booking
+            $booking->update([
+                'bookingStatus' => 'y'
+            ]);
+
+            // 5️⃣ Trừ số lượng tour
+            $totalPeople = $booking->numAdults + $booking->numChildren;
+
+            $tour = Tours::lockForUpdate()->findOrFail($booking->tourId);
+
+            if ($tour->quantity < $totalPeople) {
+                throw new \Exception('Tour không đủ chỗ.');
+            }
+
+            $tour->decrement('quantity', $totalPeople);
+
+            DB::commit();
+
             return response()->json([
                 'success' => true,
-                'message' => 'Cập nhật trạng thái thành công.',
-                'data' => view('admin.partials.list-booking', compact('list_booking'))->render()
+                'message' => 'Xác nhận nhận tiền và booking thành công.',
             ]);
-        } else {
+
+        } catch (\Throwable $e) {
+            DB::rollBack();
             return response()->json([
                 'success' => false,
-                'message' => 'Cập nhật thất bại.'
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
 
-    public function receiviedMoney(Request $request){
-        $bookingId = $request->bookingId;
-
-        $dataUpdate = [
-            'paymentStatus' => 'y'
-        ];
-
-        $result = $this->booking->updateCheckout($bookingId, $dataUpdate);
-
-        if ($result) {
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Cập nhật trạng thái thành công.',
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Cập nhật thất bại.'
-            ], 500);
-        }
-    }
 
     private function updateHideBooking($list_booking)
     {

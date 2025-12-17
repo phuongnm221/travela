@@ -21,10 +21,10 @@
             @endif
         </td>
         <td>
-            @if ($booking->paymentMethod == 'momo-payment')
-                <img src="{{ asset('admin/assets/images/icon/icon_momo.png') }}" class="icon_payment" alt="">
-            @elseif ($booking->paymentMethod == 'paypal-payment')
-                <img src="{{ asset('admin/assets/images/icon/icon_paypal.png') }}" class="icon_payment" alt="">
+            @if ($booking->paymentMethod == 'vnpay-payment')
+                <img src="{{ asset('clients/assets/images/booking/vnpay.png') }}" class="icon_payment" alt="">
+            @elseif ($booking->paymentMethod == 'stripe-payment')
+                <img src="{{ asset('clients/assets/images/booking/Stripe-Logo.png') }}" class="icon_payment" alt="">
             @else
                 <img src="{{ asset('admin/assets/images/icon/icon_office.png') }}" class="icon_payment" alt="">
             @endif
@@ -39,21 +39,10 @@
         </td>
 
         <td>
-            <div class="btn-group">
-                <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                </button>
-                <div class="dropdown-menu" x-placement="bottom-start"
-                    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(71px, 38px, 0px);">
-                    @if ($booking->bookingStatus == 'b')
-                    <a class="dropdown-item confirm-booking" href="javascript:void(0)" data-bookingId="{{ $booking->bookingId }}"
-                        data-urlConfirm="{{ route('admin.confirm-booking') }}">Xác nhận</a>
-                    @endif
-                    <a class="dropdown-item finish-booking {{ $booking->hide }}" href="javascript:void(0)" data-bookingId="{{ $booking->bookingId }}"
-                        data-urlfinish="{{ route('admin.finish-booking') }}">Đã hoàn thành</a>
-                    <a class="dropdown-item" href="{{ route('admin.booking-detail',['id' => $booking->bookingId]) }}">Xem chi tiết</a>
-                </div>
-            </div>
+            <a href="{{ route('admin.booking-detail', ['id' => $booking->bookingId]) }}"
+            class="btn btn-info btn-sm">
+                <i class="fa fa-eye"></i> Xem chi tiết
+            </a>
         </td>
     </tr>
 @endforeach

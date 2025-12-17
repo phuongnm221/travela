@@ -129,7 +129,6 @@ class BookingController extends Controller
                ]);
 
             case 'office-payment':
-                $this->confirmAfterPaid($bookingId);
                 toastr()->success('Đặt tour thành công!');
                 return redirect()->route('tour-booked', [
                     'bookingId' => $bookingId,
@@ -145,31 +144,6 @@ class BookingController extends Controller
         return view('clients.booking', compact('title', 'tour'));
     }
 
-    public function confirmAfterPaid(int $bookingId)
-    {
-        DB::transaction(function () use ($bookingId) {
-
-            $booking = Booking::lockForUpdate()->findOrFail($bookingId);
-
-            if ($booking->bookingStatus === 'b') {
-                return;
-            }
-
-            $booking->update([
-                'bookingStatus' => 'b'
-            ]);
-
-            Checkout::where('bookingId', $bookingId)
-                ->update(['paymentStatus' => 'n']);
-
-            // Trừ số lượng tour
-            $tour = Tours::lockForUpdate()->find($booking->tourId);
-            if ($tour) {
-                $tour->decrement('quantity', $totalPeople);
-            }
-            
-        });
-    }
 
 
     //Kiểm tra người dùng đã đặt và hoàn thành tour hay chưa để đánh giá

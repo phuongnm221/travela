@@ -13,6 +13,14 @@ class Booking extends Model
     protected $table = 'tbl_booking';
     protected $primaryKey = 'bookingId';
     public $timestamps = false;
+
+    protected $fillable = [
+        'bookingStatus',
+        'numAdults',
+        'numChildren',
+        'tourId',
+        'userId'
+    ];
     
     public function createBooking($data)
     {

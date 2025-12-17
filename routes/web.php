@@ -164,7 +164,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::post('/confirm-booking', [BookingManagementController::class, 'confirmBooking'])->name('admin.confirm-booking');
     Route::get('/booking-detail/{id?}', [BookingManagementController::class, 'showDetail'])->name('admin.booking-detail');
     Route::post('/finish-booking', [BookingManagementController::class, 'finishBooking'])->name('admin.finish-booking');
-    Route::post('/received-money', [BookingManagementController::class, 'receiviedMoney'])->name('admin.received');
+    Route::post('/received-money', [BookingManagementController::class, 'receivedMoney'])->name('admin.received');
 
     //Send mail pdf
     Route::post('/admin/send-pdf', [BookingManagementController::class, 'sendPdf'])->name('admin.send.pdf');

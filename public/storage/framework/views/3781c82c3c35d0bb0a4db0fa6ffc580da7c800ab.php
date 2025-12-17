@@ -1,7 +1,7 @@
-@include('admin.blocks.header')
+<?php echo $__env->make('admin.blocks.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <div class="container body">
     <div class="main_container">
-        @include('admin.blocks.sidebar')
+        <?php echo $__env->make('admin.blocks.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="">
@@ -32,13 +32,15 @@
                                         <!-- title row -->
                                         <div class="invoice-header-fixed">
     <div class="invoice-title">
-        <img src="{{ asset('admin/assets/images/icon/icon_office.png') }}"
+        <img src="<?php echo e(asset('admin/assets/images/icon/icon_office.png')); ?>"
             style="margin-right:10px">
-        {{ $invoice_booking->title }}
+        <?php echo e($invoice_booking->title); ?>
+
     </div>
 
     <div class="invoice-date">
-        Ngày: {{ date('d-m-Y', strtotime($invoice_booking->bookingDate)) }}
+        Ngày: <?php echo e(date('d-m-Y', strtotime($invoice_booking->bookingDate))); ?>
+
     </div>
 </div>
 
@@ -52,10 +54,13 @@
                                             <div class="col-sm-4 invoice-col">
                                                 Từ
                                                 <address>
-                                                    <strong>{{ $invoice_booking->fullName }}</strong>
-                                                    <br>{{ $invoice_booking->address }}
-                                                    <br>Số điện thoại: {{ $invoice_booking->phoneNumber }}
-                                                    <br>Email:{{ $invoice_booking->email }}
+                                                    <strong><?php echo e($invoice_booking->fullName); ?></strong>
+                                                    <br><?php echo e($invoice_booking->address); ?>
+
+                                                    <br>Số điện thoại: <?php echo e($invoice_booking->phoneNumber); ?>
+
+                                                    <br>Email:<?php echo e($invoice_booking->email); ?>
+
                                                 </address>
                                             </div>
                                             <!-- /.col -->
@@ -71,16 +76,19 @@
                                             </div>
                                             <!-- /.col -->
                                             <div class="col-sm-4 invoice-col">
-                                                <b>Mã hóa đơn #{{ $invoice_booking->checkoutId }}</b>
+                                                <b>Mã hóa đơn #<?php echo e($invoice_booking->checkoutId); ?></b>
                                                 <br>
                                                 <br>
-                                                <b>Mã giao dịch:</b> {{ $invoice_booking->transactionId ?? 'Thanh toán tại công ty Travela' }}
+                                                <b>Mã giao dịch:</b> <?php echo e($invoice_booking->transactionId ?? 'Thanh toán tại công ty Travela'); ?>
+
 
                                                 <br>
                                                 <b>Ngày thanh toán:</b>
-                                                {{ $invoice_booking->paymentDate ? date('d-m-Y', strtotime($invoice_booking->paymentDate)) : '---' }}
+                                                <?php echo e($invoice_booking->paymentDate ? date('d-m-Y', strtotime($invoice_booking->paymentDate)) : '---'); ?>
+
                                                 <br>
-                                                <b>Tài khoản:</b> {{ $invoice_booking->userId }}
+                                                <b>Tài khoản:</b> <?php echo e($invoice_booking->userId); ?>
+
                                             </div>
                                             <!-- /.col -->
                                         </div>
@@ -102,20 +110,24 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>Người lớn</td>
-                                                            <td>{{ $invoice_booking->numAdults }}</td>
-                                                            <td>{{ number_format($invoice_booking->priceAdult, 0, ',', '.') }}
+                                                            <td><?php echo e($invoice_booking->numAdults); ?></td>
+                                                            <td><?php echo e(number_format($invoice_booking->priceAdult, 0, ',', '.')); ?>
+
                                                                 vnđ</td>
-                                                            <td>{{ $invoice_booking->destination }}</td>
-                                                            <td>{{ number_format($invoice_booking->priceAdult * $invoice_booking->numAdults, 0, ',', '.') }}
+                                                            <td><?php echo e($invoice_booking->destination); ?></td>
+                                                            <td><?php echo e(number_format($invoice_booking->priceAdult * $invoice_booking->numAdults, 0, ',', '.')); ?>
+
                                                                 vnđ</td>
                                                         </tr>
                                                         <tr>
                                                             <td>Trẻ em</td>
-                                                            <td>{{ $invoice_booking->numChildren }}</td>
-                                                            <td>{{ number_format($invoice_booking->priceChild, 0, ',', '.') }}
+                                                            <td><?php echo e($invoice_booking->numChildren); ?></td>
+                                                            <td><?php echo e(number_format($invoice_booking->priceChild, 0, ',', '.')); ?>
+
                                                                 vnđ</td>
-                                                            <td>{{ $invoice_booking->destination }}</td>
-                                                            <td>{{ number_format($invoice_booking->priceChild * $invoice_booking->numChildren, 0, ',', '.') }}
+                                                            <td><?php echo e($invoice_booking->destination); ?></td>
+                                                            <td><?php echo e(number_format($invoice_booking->priceChild * $invoice_booking->numChildren, 0, ',', '.')); ?>
+
                                                                 vnđ</td>
                                                         </tr>
                                                     </tbody>
@@ -129,40 +141,41 @@
                                             <!-- accepted payments column -->
                                             <div class="col-md-6">
                                                 <p class="lead">Phương thức thanh toán:</p>
-                                                @if ($invoice_booking->paymentMethod == 'vnpay-payment')
-                                                    <img src="{{ asset('clients/assets/images/booking/vnpay.png') }}"
+                                                <?php if($invoice_booking->paymentMethod == 'vnpay-payment'): ?>
+                                                    <img src="<?php echo e(asset('clients/assets/images/booking/vnpay.png')); ?>"
                                                         class="invoice_payment-method" alt="">
                                                     <span class="badge badge-info">Thanh toán bằng VNpay</span>
-                                                @elseif ($invoice_booking->paymentMethod == 'stripe-payment')
-                                                    <img src="{{ asset('clients/assets/images/booking/Stripe-Logo.png') }}"
+                                                <?php elseif($invoice_booking->paymentMethod == 'stripe-payment'): ?>
+                                                    <img src="<?php echo e(asset('clients/assets/images/booking/Stripe-Logo.png')); ?>"
                                                         class="invoice_payment-method" alt="">
                                                     <span class="badge badge-info">Thanh toán bằng Stripe</span>
-                                                @else
-                                                    <img src="{{ asset('admin/assets/images/icon/icon_office.png') }}"
+                                                <?php else: ?>
+                                                    <img src="<?php echo e(asset('admin/assets/images/icon/icon_office.png')); ?>"
                                                         alt="">
                                                     <span class="badge badge-info">Thanh toán tại văn phòng</span>
-                                                @endif
+                                                <?php endif; ?>
                                                 <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
                                                     Vui lòng hoàn tất thanh toán theo hướng dẫn hoặc liên hệ với chúng
                                                     tôi nếu cần hỗ trợ.
                                                 </p>
-                                                @if ($invoice_booking->paymentStatus === 'y')
+                                                <?php if($invoice_booking->paymentStatus === 'y'): ?>
                                                     <span class="badge badge-success">Đã thanh toán</span>
-                                                @else
+                                                <?php else: ?>
                                                     <span class="badge badge-warning">Chưa thanh toán</span>
-                                                @endif
+                                                <?php endif; ?>
 
                                             </div>
                                             <!-- /.col -->
                                             <div class="col-md-6">
                                                 <p class="lead">Số tiền phải trả trước
-                                                    {{ date('d-m-Y', strtotime($invoice_booking->startDate)) }}</p>
+                                                    <?php echo e(date('d-m-Y', strtotime($invoice_booking->startDate))); ?></p>
                                                 <div class="table-responsive">
                                                     <table class="table">
                                                         <tbody>
                                                             <tr>
                                                                 <th style="width:50%">Tổng tiền:</th>
-                                                                <td>{{ number_format($invoice_booking->totalPrice, 0, ',', '.') }}
+                                                                <td><?php echo e(number_format($invoice_booking->totalPrice, 0, ',', '.')); ?>
+
                                                                     vnđ</td>
                                                             </tr>
                                                             <tr>
@@ -175,7 +188,8 @@
                                                             </tr>
                                                             <tr>
                                                                 <th>Tổng tiền:</th>
-                                                                <td>{{ number_format($invoice_booking->amount, 0, ',', '.') }}
+                                                                <td><?php echo e(number_format($invoice_booking->amount, 0, ',', '.')); ?>
+
                                                                     vnđ</td>
                                                             </tr>
                                                         </tbody>
@@ -195,14 +209,15 @@
                                 <div class=" ">
                                     <button class="btn btn-default" onclick="window.print();"><i
                                             class="fa fa-print"></i> Print</button>
-                                    <button id="send-pdf-btn" data-bookingid= "{{ $invoice_booking->bookingId }}"
-                                        data-email="{{ $invoice_booking->email }}"
-                                        data-urlSendMail={{ route('admin.send.pdf') }}
+                                    <button id="send-pdf-btn" data-bookingid= "<?php echo e($invoice_booking->bookingId); ?>"
+                                        data-email="<?php echo e($invoice_booking->email); ?>"
+                                        data-urlSendMail=<?php echo e(route('admin.send.pdf')); ?>
+
                                         class="btn btn-primary pull-right" style="margin-right: 5px;"><i
                                             class="fa fa-send"></i> Gửi hóa đơn cho khách hàng</button>
-                                    <button id="received-money" data-bookingid= "{{ $invoice_booking->bookingId }}"
-                                         data-urlPaid="{{ route('admin.received') }}"
-                                        class="btn btn-info pull-right {{ $hide }}" style="margin-right: 5px;"><i
+                                    <button id="received-money" data-bookingid= "<?php echo e($invoice_booking->bookingId); ?>"
+                                         data-urlPaid="<?php echo e(route('admin.received')); ?>"
+                                        class="btn btn-info pull-right <?php echo e($hide); ?>" style="margin-right: 5px;"><i
                                             class="glyphicon glyphicon-usd"></i> Xác nhận đã nhận tiền</button>
                                 </div>
                             </div>
@@ -214,7 +229,7 @@
         <!-- /page content -->
     </div>
 </div>
-@include('admin.blocks.footer')
+<?php echo $__env->make('admin.blocks.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <style>
 @media print {
     body * {
@@ -238,3 +253,4 @@
 
 
 
+<?php /**PATH D:\xampp\htdocs\travela\resources\views/admin/booking-detail.blade.php ENDPATH**/ ?>
