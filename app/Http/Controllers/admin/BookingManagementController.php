@@ -24,7 +24,11 @@ class BookingManagementController extends Controller
     public function index()
     {
         $title = 'Quản lý đặt Tour';
-
+        DB::table('tbl_booking as b')
+            ->join('tbl_tours as t', 'b.tourId', '=', 't.tourId')
+            ->where('b.bookingStatus', 'y')
+            ->whereDate('t.endDate', '<', now())
+            ->update(['bookingStatus' => 'f']);
         $list_booking = $this->booking->getBooking();
         $list_booking = $this->updateHideBooking($list_booking);
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\clients\Tours;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
 
 class MyTourController extends Controller
 {
@@ -21,9 +22,13 @@ class MyTourController extends Controller
     {
         $title = 'Tours đã đặt';
         $userId = $this->getUserId();
-        
+        DB::table('tbl_booking as b')
+            ->join('tbl_tours as t', 'b.tourId', '=', 't.tourId')
+            ->where('b.userId', $userId)
+            ->where('b.bookingStatus', 'y')
+            ->whereDate('t.endDate', '<', now())
+            ->update(['b.bookingStatus' => 'f']);
         $myTours = $this->user->getMyTours($userId);
-        $userId = $this->getUserId();
         if ($userId) {
             // Gọi API Python để lấy danh sách tour được gợi ý cho từng người dùng 
             try {
