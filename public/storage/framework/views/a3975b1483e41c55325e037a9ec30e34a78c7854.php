@@ -1,11 +1,11 @@
-@include('clients.blocks.header')
-@include('clients.blocks.banner')
+<?php echo $__env->make('clients.blocks.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('clients.blocks.banner', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 <section class="container" style="margin-top:50px; margin-bottom: 100px">
-    {{-- <h1 class="text-center booking-header">Tổng Quan Về Chuyến Đi</h1> --}}
+    
 
-    <form action="{{ route('cancel-booking') }}" method="POST" class="booking-container">
-        @csrf
+    <form action="<?php echo e(route('cancel-booking')); ?>" method="POST" class="booking-container">
+        <?php echo csrf_field(); ?>
         <!-- Contact Information -->
         <div class="booking-info">
             <h2 class="booking-header">Thông Tin Liên Lạc</h2>
@@ -13,28 +13,28 @@
                 <div class="form-group">
                     <label for="username">Họ và tên*</label>
                     <input type="text" id="username" placeholder="Nhập Họ và tên" name="fullName"
-                        value="{{ $tour_booked->fullName }}" readonly>
+                        value="<?php echo e($tour_booked->fullName); ?>" readonly>
                     <span class="error-message" id="usernameError"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email*</label>
                     <input type="email" id="email" placeholder="sample@gmail.com" name="email"
-                        value="{{ $tour_booked->email }}" readonly>
+                        value="<?php echo e($tour_booked->email); ?>" readonly>
                     <span class="error-message" id="emailError"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="tel">Số điện thoại*</label>
                     <input type="number" id="tel" placeholder="Nhập số điện thoại liên hệ" name="tel"
-                        value="{{ $tour_booked->phoneNumber }}" readonly>
+                        value="<?php echo e($tour_booked->phoneNumber); ?>" readonly>
                     <span class="error-message" id="telError"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="address">Địa chỉ*</label>
                     <input type="text" id="address" placeholder="Nhập địa chỉ liên hệ" name="address"
-                        value="{{ $tour_booked->address }}" readonly>
+                        value="<?php echo e($tour_booked->address); ?>" readonly>
                     <span class="error-message" id="addressError"></span>
                 </div>
 
@@ -55,20 +55,20 @@
             <h2 class="booking-header">Phương Thức Thanh Toán</h2>
 
             <label class="payment-option">
-                <input type="radio" value="office-payment" @if ($tour_booked->paymentMethod == 'office-payment') checked @endif disabled>
-                <img src="{{ asset('clients/assets/images/contact/icon.png') }}" alt="Office Payment">
+                <input type="radio" value="office-payment" <?php if($tour_booked->paymentMethod == 'office-payment'): ?> checked <?php endif; ?> disabled>
+                <img src="<?php echo e(asset('clients/assets/images/contact/icon.png')); ?>" alt="Office Payment">
                 Thanh toán tại văn phòng
             </label>
 
             <label class="payment-option">
-                <input type="radio" value="vnpay-payment" @if ($tour_booked->paymentMethod == 'vnpay-payment') checked @endif disabled>
-                <img src="{{ asset('clients/assets/images/booking/vnpay.png') }}" alt="vnpay">
+                <input type="radio" value="vnpay-payment" <?php if($tour_booked->paymentMethod == 'vnpay-payment'): ?> checked <?php endif; ?> disabled>
+                <img src="<?php echo e(asset('clients/assets/images/booking/vnpay.png')); ?>" alt="vnpay">
                 Thanh toán bằng VNPAY
             </label>
 
             <label class="payment-option">
-                <input type="radio" value="stripe-payment" @if ($tour_booked->paymentMethod == 'stripe-payment') checked @endif disabled>
-                <img src="{{ asset('clients/assets/images/booking/Stripe-Logo.png') }}" alt="Stripe">
+                <input type="radio" value="stripe-payment" <?php if($tour_booked->paymentMethod == 'stripe-payment'): ?> checked <?php endif; ?> disabled>
+                <img src="<?php echo e(asset('clients/assets/images/booking/Stripe-Logo.png')); ?>" alt="Stripe">
                 Thanh toán bằng STRIPE
             </label>
 
@@ -78,34 +78,35 @@
         <div class="booking-summary">
             <div class="summary-section">
                 <div>
-                    <p>Mã tour : {{ $tour_booked->tourId }}</p>
+                    <p>Mã tour : <?php echo e($tour_booked->tourId); ?></p>
                     <span class="booking-status
-        @if ($tour_booked->bookingStatus == 'b') status-pending
-        @elseif ($tour_booked->bookingStatus == 'y') status-upcoming
-        @elseif ($tour_booked->bookingStatus == 'f') status-finished
-        @elseif ($tour_booked->bookingStatus == 'c') status-cancelled
-        @endif
+        <?php if($tour_booked->bookingStatus == 'b'): ?> status-pending
+        <?php elseif($tour_booked->bookingStatus == 'y'): ?> status-upcoming
+        <?php elseif($tour_booked->bookingStatus == 'f'): ?> status-finished
+        <?php elseif($tour_booked->bookingStatus == 'c'): ?> status-cancelled
+        <?php endif; ?>
     ">
-        @if ($tour_booked->bookingStatus == 'b') Đợi xác nhận
-        @elseif ($tour_booked->bookingStatus == 'y') Sắp khởi hành
-        @elseif ($tour_booked->bookingStatus == 'f') Hoàn thành
-        @elseif ($tour_booked->bookingStatus == 'c') Đã hủy
-        @endif
+        <?php if($tour_booked->bookingStatus == 'b'): ?> Đợi xác nhận
+        <?php elseif($tour_booked->bookingStatus == 'y'): ?> Sắp khởi hành
+        <?php elseif($tour_booked->bookingStatus == 'f'): ?> Hoàn thành
+        <?php elseif($tour_booked->bookingStatus == 'c'): ?> Đã hủy
+        <?php endif; ?>
     </span>
-                    <input type="hidden" name="tourId" id="tourId" value="{{ $tour_booked->tourId }}">
-                    <h5 class="widget-title">{{ $tour_booked->title }}</h5>
-                    <p>Ngày khởi hành : {{ date('d-m-Y', strtotime($tour_booked->startDate)) }}</p>
-                    <p>Ngày kết thúc : {{ date('d-m-Y', strtotime($tour_booked->endDate)) }}</p>
+                    <input type="hidden" name="tourId" id="tourId" value="<?php echo e($tour_booked->tourId); ?>">
+                    <h5 class="widget-title"><?php echo e($tour_booked->title); ?></h5>
+                    <p>Ngày khởi hành : <?php echo e(date('d-m-Y', strtotime($tour_booked->startDate))); ?></p>
+                    <p>Ngày kết thúc : <?php echo e(date('d-m-Y', strtotime($tour_booked->endDate))); ?></p>
                 </div>
 
                 <div class="order-summary" style="border-bottom: 1px solid #d6d6d6; margin-bottom:20px">
                     <div class="summary-item">
                         <span>Người lớn:</span>
                         <div>
-                            <span class="quantity__adults-booked">{{ number_format($tour_booked->numAdults) }}</span>
-                            <input type="hidden" name="quantity__adults" value="{{ $tour_booked->numAdults }}">
+                            <span class="quantity__adults-booked"><?php echo e(number_format($tour_booked->numAdults)); ?></span>
+                            <input type="hidden" name="quantity__adults" value="<?php echo e($tour_booked->numAdults); ?>">
                             <span>X</span>
-                            <span class="total-price-booked">{{ number_format($tour_booked->priceAdult, 0, ',', '.') }}
+                            <span class="total-price-booked"><?php echo e(number_format($tour_booked->priceAdult, 0, ',', '.')); ?>
+
                                 VNĐ</span>
                         </div>
                     </div>
@@ -113,10 +114,11 @@
                         <span>Trẻ em:</span>
                         <div>
                             <span
-                                class="quantity__children-booked">{{ number_format($tour_booked->numChildren) }}</span>
-                            <input type="hidden" name="quantity__children" value="{{ $tour_booked->numChildren }}">
+                                class="quantity__children-booked"><?php echo e(number_format($tour_booked->numChildren)); ?></span>
+                            <input type="hidden" name="quantity__children" value="<?php echo e($tour_booked->numChildren); ?>">
                             <span>X</span>
-                            <span class="total-price-booked">{{ number_format($tour_booked->priceChild, 0, ',', '.') }}
+                            <span class="total-price-booked"><?php echo e(number_format($tour_booked->priceChild, 0, ',', '.')); ?>
+
                                 VNĐ</span>
                         </div>
                     </div>
@@ -124,50 +126,52 @@
                         <span>Giảm giá:</span>
                         <div>
                             <span class="total-price-booked">
-                                {{ number_format($tour_booked->numAdults * $tour_booked->priceAdult + $tour_booked->numChildren * $tour_booked->priceChild - $tour_booked->totalPrice, 0, ',', '.') }}
+                                <?php echo e(number_format($tour_booked->numAdults * $tour_booked->priceAdult + $tour_booked->numChildren * $tour_booked->priceChild - $tour_booked->totalPrice, 0, ',', '.')); ?>
+
                                 VNĐ
                             </span>
                         </div>
                     </div>
                     <div class="summary-item total-price-booked">
                         <span>Tổng cộng:</span>
-                        <span>{{ number_format($tour_booked->totalPrice, 0, ',', '.') }} VNĐ</span>
+                        <span><?php echo e(number_format($tour_booked->totalPrice, 0, ',', '.')); ?> VNĐ</span>
                     </div>
                 </div>
 
-                <input type="hidden" name="bookingId" value="{{ $bookingId }}">
+                <input type="hidden" name="bookingId" value="<?php echo e($bookingId); ?>">
 
-                @if ($tour_booked->bookingStatus == 'f')
-                    {{-- Hoàn thành → Đánh giá --}}
-                    <a href="{{ route('tour-detail', ['id' => $tour_booked->tourId]) }}"
+                <?php if($tour_booked->bookingStatus == 'f'): ?>
+                    
+                    <a href="<?php echo e(route('tour-detail', ['id' => $tour_booked->tourId])); ?>"
                     class="booking-btn">
                         Đánh giá
                     </a>
 
-                @elseif ($tour_booked->bookingStatus == 'c')
-                    {{-- Đã hủy → Đặt lại --}}
-                    <a href="{{ route('tour-detail', ['id' => $tour_booked->tourId]) }}"
+                <?php elseif($tour_booked->bookingStatus == 'c'): ?>
+                    
+                    <a href="<?php echo e(route('tour-detail', ['id' => $tour_booked->tourId])); ?>"
                     class="booking-btn booking-btn-rebook"
                     style="background:#28a745;">
                         Đặt lại tour
                     </a>
 
-                @elseif ($tour_booked->bookingStatus == 'b')
-                    {{-- CHỈ b mới được hủy --}}
+                <?php elseif($tour_booked->bookingStatus == 'b'): ?>
+                    
                     <button type="submit" class="booking-btn btn-cancel-booking">
                         Hủy tour
                     </button>
 
-                @else
-                    {{-- y, các trạng thái khác → KHÔNG cho hủy --}}
+                <?php else: ?>
+                    
                     <span class="booking-note text-danger">
                         Tour đã được xác nhận, không thể hủy
                     </span>
-                @endif
+                <?php endif; ?>
             </div>
         </div>
     </form>
 </section>
 
 
-@include('clients.blocks.footer')
+<?php echo $__env->make('clients.blocks.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php /**PATH D:\xampp\htdocs\travela\resources\views/clients/tour-booked.blade.php ENDPATH**/ ?>

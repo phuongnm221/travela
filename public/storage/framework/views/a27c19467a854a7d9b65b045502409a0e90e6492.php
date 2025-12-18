@@ -1,0 +1,196 @@
+<?php echo $__env->make('clients.blocks.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('clients.blocks.banner', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+<!-- Benefit Area start -->
+<section class="benefit-area mt-100 rel z-1">
+    <div class="container">
+        <div class="row align-items-center justify-content-between">
+            <div class="col-xl-5 col-lg-6">
+                <div class="mobile-app-content rmb-55" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
+                    <div class="section-title counter-text-wrap mb-40">
+                        <h2>Ultimate Explorer's Handbook Hướng dẫn đầy đủ của bạn về các chuyến đi</h2>
+                    </div>
+                    <p>Chúng tôi hợp tác chặt chẽ với khách hàng để hiểu rõ những thách thức và mục tiêu, cung cấp các
+                        giải pháp tùy chỉnh nhằm nâng cao hiệu quả, tăng lợi nhuận và thúc đẩy tăng trưởng bền vững.</p>
+                    <div class="skillbar mt-80" data-percent="93">
+                        <span class="skillbar-title">Clients Satisfactions</span>
+                        <div class="progress-bar-striped skillbar-bar progress-bar-animated" role="progressbar"
+                            aria-valuenow="93" aria-valuemin="0" aria-valuemax="100"></div>
+                        <span class="skill-bar-percent"></span>
+                    </div>
+                    <ul class="list-style-two mt-35 mb-30">
+                        <li>Cơ quan trải nghiệm</li>
+                        <li>Đội ngũ chuyên nghiệp</li>
+                    </ul>
+                    <a href="about.html" class="theme-btn style-two">
+                        <span data-hover="Khám phá Guides">Khám phá Guides</span>
+                        <i class="fal fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="benefit-image-part style-two">
+                    <div class="image-one" data-aos="fade-down" data-aos-delay="50" data-aos-duration="1500"
+                        data-aos-offset="50">
+                        <img src="<?php echo e(asset('clients/assets/images/benefit/benefit1.png')); ?>" alt="Benefit">
+                    </div>
+                    <div class="image-two" data-aos="fade-up" data-aos-delay="50" data-aos-duration="1500"
+                        data-aos-offset="50">
+                        <img src="<?php echo e(asset('clients/assets/images/benefit/benefit2.png')); ?>" alt="Benefit">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Benefit Area end -->
+
+
+<!-- Team Area start -->
+<section class="about-team-area pt-100 rel z-1">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="section-title text-center counter-text-wrap mb-50" data-aos="fade-up"
+                    data-aos-duration="1500" data-aos-offset="50">
+                    <h2>Gặp gỡ những hướng dẫn viên du lịch giàu kinh nghiệm của chúng tôi</h2>
+                    <p>Website <span class="count-text plus bgc-primary" data-speed="3000" data-stop="34500">0</span>
+                        trải nghiệm phổ biến nhất mà bạn sẽ nhớ</p>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="team-item hover-content" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
+                    <img src="<?php echo e(asset('clients/assets/images/team/guide-mai.jpg')); ?>" alt="Guide">
+                    <div class="content">
+                        <h6>NGUYEN MAI</h6>
+                        <span class="designation">Founder</span>
+                        <div class="social-style-one inner-content">
+                            <a href="https://www.facebook.com/mai.nguyen.81792"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.facebook.com/mai.nguyen.81792"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.facebook.com/mai.nguyen.81792"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/mai.nguyen.81792"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="team-item hover-content" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
+                    <img src="<?php echo e(asset('clients/assets/images/team/guide-nga.jpg')); ?>" alt="Guide">
+                    <div class="content">
+                        <h6>PHUONG NGA</h6>
+                        <span class="designation">Co-founder</span>
+                        <div class="social-style-one inner-content">
+                            <a href="contact.html"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.facebook.com/nga.nguyenphuong.58910/"><i class="fab fa-facebook-f"></i></a>
+                            <a href="contact.html"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/@nganguyenthiphuong6735"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="team-item hover-content" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
+                    <img src="<?php echo e(asset('clients/assets/images/team/guide-phuong.jpg')); ?>" alt="Guide">
+                    <div class="content">
+                        <h6>MINH PHUONG</h6>
+                        <span class="designation">Travel Guide</span>
+                        <div class="social-style-one inner-content">
+                            <a href="contact.html"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.facebook.com/nguyen.minh.phwng"><i class="fab fa-facebook-f"></i></a>
+                            <a href="contact.html"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/nguyen.minh.phwng"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="team-item hover-content" data-aos="fade-up" data-aos-delay="50" data-aos-duration="1500"
+                    data-aos-offset="50">
+                    <img src="<?php echo e(asset('clients/assets/images/team/guide-khanh.jpg')); ?>" alt="Guide">
+                    <div class="content">
+                        <h6>MAI KHANH</h6>
+                        <span class="designation">Senior Guide</span>
+                        <div class="social-style-one inner-content">
+                            <a href="contact.html"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.facebook.com/maikhanh.nguyen.184"><i class="fab fa-facebook-f"></i></a>
+                            <a href="contact.html"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/maikhanh.nguyen.184"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="team-item hover-content" data-aos="fade-up" data-aos-delay="100"
+                    data-aos-duration="1500" data-aos-offset="50">
+                    <img src="<?php echo e(asset('clients/assets/images/team/guide3.jpg')); ?>" alt="Guide">
+                    <div class="content">
+                        <h6>XUAN MAI</h6>
+                        <span class="designation">Travel Guide</span>
+                        <div class="social-style-one inner-content">
+                            <a href="contact.html"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.facebook.com/phung.mai.202973"><i class="fab fa-facebook-f"></i></a>
+                            <a href="contact.html"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/phung.mai.202973"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="team-item hover-content" data-aos="fade-up" data-aos-delay="150"
+                    data-aos-duration="1500" data-aos-offset="50">
+                    <img src="<?php echo e(asset('clients/assets/images/team/guide4.jpg')); ?>" alt="Guide">
+                    <div class="content">
+                        <h6>DUC ANH</h6>
+                        <span class="designation">Travel Guide</span>
+                        <div class="social-style-one inner-content">
+                            <a href="contact.html"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.facebook.com/phung.mai.202973"><i class="fab fa-facebook-f"></i></a>
+                            <a href="contact.html"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/phung.mai.202973"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="team-item hover-content" data-aos="fade-up" data-aos-duration="1500"
+                    data-aos-offset="50">
+                    <img src="<?php echo e(asset('clients/assets/images/team/guide5.jpg')); ?>" alt="Guide">
+                    <div class="content">
+                        <h6>THANH NHAN</h6>
+                        <span class="designation">Co-founder</span>
+                        <div class="social-style-one inner-content">
+                            <a href="contact.html"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.facebook.com/phung.mai.202973"><i class="fab fa-facebook-f"></i></a>
+                            <a href="contact.html"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/phung.mai.202973"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="team-item hover-content" data-aos="fade-up" data-aos-delay="50" data-aos-duration="1500"
+                    data-aos-offset="50">
+                    <img src="<?php echo e(asset('clients/assets/images/team/guide6.jpg')); ?>" alt="Guide">
+                    <div class="content">
+                        <h6>CONG LAM</h6>
+                        <span class="designation">Senior Guide</span>
+                        <div class="social-style-one inner-content">
+                            <a href="contact.html"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.facebook.com/phung.mai.202973"><i class="fab fa-facebook-f"></i></a>
+                            <a href="contact.html"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/phung.mai.202973"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Team Area end -->
+
+
+<?php echo $__env->make('clients.blocks.new_letter', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('clients.blocks.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php /**PATH D:\xampp\htdocs\travela\resources\views/clients/travel-guides.blade.php ENDPATH**/ ?>
