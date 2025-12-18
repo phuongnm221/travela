@@ -63,7 +63,7 @@ class BookingManagementController extends Controller
         try {
             Mail::send('admin.emails.invoice', compact('invoice_booking'), function ($message) use ($invoice_booking) {
                 $message->to($invoice_booking->email)
-                    ->subject('Hóa đơn đặt tour của khách hàng' . $invoice_booking->fullName);
+                    ->subject('Hóa đơn đặt tour của khách hàng ' . $invoice_booking->fullName);
             });
 
             return response()->json([

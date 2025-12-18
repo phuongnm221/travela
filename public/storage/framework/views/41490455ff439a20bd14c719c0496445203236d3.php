@@ -1,4 +1,4 @@
-<p style="font-size: 16px; font-family: Arial, sans-serif; color: #333;">Chào {{ $invoice_booking->fullName }},</p>
+<p style="font-size: 16px; font-family: Arial, sans-serif; color: #333;">Chào <?php echo e($invoice_booking->fullName); ?>,</p>
 <p style="font-size: 16px; font-family: Arial, sans-serif; color: #333;">Cảm ơn bạn đã đặt tour tại Travela. Vui lòng xem chi tiết hóa đơn trong file đính kèm.</p>
 <p style="font-size: 16px; font-family: Arial, sans-serif; color: #333;">Chúc bạn một chuyến đi vui vẻ!</p>
 
@@ -12,9 +12,10 @@
             <div class="row" style="margin-bottom: 20px;">
                 <div class="invoice-header">
                     <h3 style="font-size: 20px; font-weight: bold;">
-                        <img src="{{ asset('admin/assets/images/icon/icon_office.png') }}" alt="" style="margin-right: 10px; vertical-align: middle;">
-                        {{ $invoice_booking->title }}
-                        <small style="float: right; font-size: 14px;">Ngày: {{ date('d-m-Y', strtotime($invoice_booking->bookingDate)) }}</small>
+                        <img src="<?php echo e(asset('admin/assets/images/icon/icon_office.png')); ?>" alt="" style="margin-right: 10px; vertical-align: middle;">
+                        <?php echo e($invoice_booking->title); ?>
+
+                        <small style="float: right; font-size: 14px;">Ngày: <?php echo e(date('d-m-Y', strtotime($invoice_booking->bookingDate))); ?></small>
                     </h3>
                 </div>
             </div>
@@ -24,10 +25,11 @@
                 <div class="col-sm-4 invoice-col" style="font-size: 14px;">
                     Từ
                     <address>
-                        <strong>{{ $invoice_booking->fullName }}</strong><br>
-                        {{ $invoice_booking->address }}<br>
-                        Số điện thoại: {{ $invoice_booking->phoneNumber }}<br>
-                        Email: {{ $invoice_booking->email }}
+                        <strong><?php echo e($invoice_booking->fullName); ?></strong><br>
+                        <?php echo e($invoice_booking->address); ?><br>
+                        Số điện thoại: <?php echo e($invoice_booking->phoneNumber); ?><br>
+                        Email: <?php echo e($invoice_booking->email); ?>
+
                     </address>
                 </div>
                 <div class="col-sm-4 invoice-col" style="font-size: 14px;">
@@ -42,16 +44,16 @@
                 </div>
                 <br>
                 <div class="col-sm-4 invoice-col" style="font-size: 14px;">
-                    <b>Mã hóa đơn #{{ $invoice_booking->checkoutId }}</b><br>
-                    <b>Mã giao dịch:</b> {{ $invoice_booking->transactionId }}<br>
-                    <b>Ngày thanh toán:</b> {{ $invoice_booking->paymentDate }}<br>
-                    <b>Tài khoản:</b> {{ $invoice_booking->userId }}<br>
+                    <b>Mã hóa đơn #<?php echo e($invoice_booking->checkoutId); ?></b><br>
+                    <b>Mã giao dịch:</b> <?php echo e($invoice_booking->transactionId); ?><br>
+                    <b>Ngày thanh toán:</b> <?php echo e($invoice_booking->paymentDate); ?><br>
+                    <b>Tài khoản:</b> <?php echo e($invoice_booking->userId); ?><br>
                     <b>Tình trạng thanh toán:</b>
-                    @if ($invoice_booking->paymentStatus == 'y')
+                    <?php if($invoice_booking->paymentStatus == 'y'): ?>
                         <span style="color: green; font-weight: bold;">Đã thanh toán</span>
-                    @else
+                    <?php else: ?>
                         <span style="color: orange; font-weight: bold;">Chưa thanh toán</span>
-                    @endif
+                    <?php endif; ?>
                     <br>
                 </div>
             </div>
@@ -72,17 +74,17 @@
                         <tbody>
                             <tr style="border-bottom: 1px solid #ddd;">
                                 <td style="padding: 8px;">Người lớn</td>
-                                <td style="padding: 8px;">{{ $invoice_booking->numAdults }}</td>
-                                <td style="padding: 8px;">{{ number_format($invoice_booking->priceAdult, 0, ',', '.') }} vnđ</td>
-                                <td style="padding: 8px;">{{ $invoice_booking->destination }}</td>
-                                <td style="padding: 8px;">{{ number_format($invoice_booking->priceAdult * $invoice_booking->numAdults, 0, ',', '.') }} vnđ</td>
+                                <td style="padding: 8px;"><?php echo e($invoice_booking->numAdults); ?></td>
+                                <td style="padding: 8px;"><?php echo e(number_format($invoice_booking->priceAdult, 0, ',', '.')); ?> vnđ</td>
+                                <td style="padding: 8px;"><?php echo e($invoice_booking->destination); ?></td>
+                                <td style="padding: 8px;"><?php echo e(number_format($invoice_booking->priceAdult * $invoice_booking->numAdults, 0, ',', '.')); ?> vnđ</td>
                             </tr>
                             <tr style="border-bottom: 1px solid #ddd;">
                                 <td style="padding: 8px;">Trẻ em</td>
-                                <td style="padding: 8px;">{{ $invoice_booking->numChildren }}</td>
-                                <td style="padding: 8px;">{{ number_format($invoice_booking->priceChild, 0, ',', '.') }} vnđ</td>
-                                <td style="padding: 8px;">{{ $invoice_booking->destination }}</td>
-                                <td style="padding: 8px;">{{ number_format($invoice_booking->priceChild * $invoice_booking->numChildren, 0, ',', '.') }} vnđ</td>
+                                <td style="padding: 8px;"><?php echo e($invoice_booking->numChildren); ?></td>
+                                <td style="padding: 8px;"><?php echo e(number_format($invoice_booking->priceChild, 0, ',', '.')); ?> vnđ</td>
+                                <td style="padding: 8px;"><?php echo e($invoice_booking->destination); ?></td>
+                                <td style="padding: 8px;"><?php echo e(number_format($invoice_booking->priceChild * $invoice_booking->numChildren, 0, ',', '.')); ?> vnđ</td>
                             </tr>
                         </tbody>
                     </table>
@@ -93,23 +95,23 @@
             <div class="row" style="margin-bottom: 20px;">
                 <div class="col-md-6">
                     <p style="font-size: 16px; font-weight: bold;">Phương thức thanh toán:</p>
-                    @if ($invoice_booking->paymentMethod == 'vnpay-payment')
+                    <?php if($invoice_booking->paymentMethod == 'vnpay-payment'): ?>
                     <h3 style="color: red; font-weight: bold;">Thanh toán qua VNpay</h3>
-                    @elseif ($invoice_booking->paymentMethod == 'stripe-payment')
+                    <?php elseif($invoice_booking->paymentMethod == 'stripe-payment'): ?>
                     <h3 style="color: red; font-weight: bold;">Thanh toán qua Stripe</h3>
-                    @else
+                    <?php else: ?>
                     <h3 style="color: red; font-weight: bold;">Thanh toán tại văn phòng</h3>
-                    @endif
+                    <?php endif; ?>
                     <p style="font-size: 14px; color: #555; margin-top: 10px;">Vui lòng hoàn tất thanh toán theo hướng dẫn hoặc liên hệ với chúng tôi nếu cần hỗ trợ.</p>
                 </div>
                 <div class="col-md-6">
-                    <p style="font-size: 16px; font-weight: bold;">Số tiền phải trả trước {{ date('d-m-Y', strtotime($invoice_booking->startDate)) }}</p>
+                    <p style="font-size: 16px; font-weight: bold;">Số tiền phải trả trước <?php echo e(date('d-m-Y', strtotime($invoice_booking->startDate))); ?></p>
                     <div class="table-responsive">
                         <table class="table" style="width: 100%; border-collapse: collapse;">
                             <tbody>
                                 <tr>
                                     <th style="width: 50%; padding: 8px; text-align: left;">Tổng tiền:</th>
-                                    <td style="padding: 8px;">{{ number_format($invoice_booking->totalPrice, 0, ',', '.') }} vnđ</td>
+                                    <td style="padding: 8px;"><?php echo e(number_format($invoice_booking->totalPrice, 0, ',', '.')); ?> vnđ</td>
                                 </tr>
                                 <tr>
                                     <th style="padding: 8px; text-align: left;">Tax (0%)</th>
@@ -122,8 +124,8 @@
                                 <tr>
                                     <th style="padding: 8px; text-align: left;">Tổng tiền:</th>
                                     <td style="padding: 8px; 
-                                        color: {{ $invoice_booking->paymentStatus == 'y' ? 'green' : 'red' }}">
-                                        {{ number_format($invoice_booking->amount, 0, ',', '.') }} vnđ
+                                        color: <?php echo e($invoice_booking->paymentStatus == 'y' ? 'green' : 'red'); ?>">
+                                        <?php echo e(number_format($invoice_booking->amount, 0, ',', '.')); ?> vnđ
                                     </td>
                                 </tr>
                             </tbody>
@@ -135,3 +137,4 @@
         </section>
     </div>
 </div>
+<?php /**PATH D:\xampp\htdocs\travela\resources\views/admin/emails/invoice.blade.php ENDPATH**/ ?>
