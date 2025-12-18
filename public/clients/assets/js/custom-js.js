@@ -900,7 +900,7 @@ $("#end_date").datetimepicker({
         }
 
         $.ajax({
-            url: urlCheckBooking,
+            url: urlCheckBooking, // URL kiểm tra đã đặt tour chưa
             method: "POST",
             data: {
                 tourId: tourIdReview,
@@ -908,7 +908,7 @@ $("#end_date").datetimepicker({
             },
             success: function (response) {
                 if (response.success) {
-                    formReviews = {
+                    formReviews = { // Dữ liệu để gửi
                         tourId: tourIdReview,
                         rating: currentRating,
                         message: message,
@@ -925,7 +925,7 @@ $("#end_date").datetimepicker({
                                 toastr.success(response.message);
                                 $("#partials_reviews").html(response.data);
                                 $("#partials_reviews .comment-body").addClass(
-                                    "aos-animate"
+                                    "aos-animate" // Thêm hiệu ứng AOS cho bình luận mới    
                                 );
                                 // Xử lý reset form hoặc thông báo
                                 $("#message").val("");

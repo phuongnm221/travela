@@ -1,16 +1,16 @@
-@include('clients.blocks.header')
+<?php echo $__env->make('clients.blocks.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <section class="page-banner-two rel z-1">
     <div class="container-fluid">
         <hr class="mt-0">
         <div class="container">
             <div class="banner-inner pt-15 pb-25">
                 <h2 class="page-title mb-10 aos-init aos-animate" data-aos="fade-left" data-aos-duration="1500"
-                    data-aos-offset="50">{{ $tourDetail->destination }}</h2>
+                    data-aos-offset="50"><?php echo e($tourDetail->destination); ?></h2>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center mb-20 aos-init aos-animate" data-aos="fade-right"
                         data-aos-delay="200" data-aos-duration="1500" data-aos-offset="50">
                         <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
-                        <li class="breadcrumb-item active">{{ $title }}</li>
+                        <li class="breadcrumb-item active"><?php echo e($title); ?></li>
                     </ol>
                 </nav>
             </div>
@@ -23,27 +23,27 @@
         <div class="row gap-10 justify-content-center rel">
             <div class="col-lg-4 col-md-6">
                 <div class="gallery-item">
-                    <img src="{{ asset('admin/assets/images/gallery-tours/' . $tourDetail->images[0] . '') }}"
+                    <img src="<?php echo e(asset('admin/assets/images/gallery-tours/' . $tourDetail->images[0] . '')); ?>"
                         alt="Destination">
                 </div>
                 <div class="gallery-item">
-                    <img src="{{ asset('admin/assets/images/gallery-tours/' . $tourDetail->images[1] . '') }}"
+                    <img src="<?php echo e(asset('admin/assets/images/gallery-tours/' . $tourDetail->images[1] . '')); ?>"
                         alt="Destination">
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
                 <div class="gallery-item gallery-between">
-                    <img src="{{ asset('admin/assets/images/gallery-tours/' . $tourDetail->images[2] . '') }}"
+                    <img src="<?php echo e(asset('admin/assets/images/gallery-tours/' . $tourDetail->images[2] . '')); ?>"
                         alt="Destination">
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
                 <div class="gallery-item">
-                    <img src="{{ asset('admin/assets/images/gallery-tours/' . $tourDetail->images[3] . '') }}"
+                    <img src="<?php echo e(asset('admin/assets/images/gallery-tours/' . $tourDetail->images[3] . '')); ?>"
                         alt="Destination">
                 </div>
                 <div class="gallery-item">
-                    <img src="{{ asset('admin/assets/images/gallery-tours/' . $tourDetail->images[4] . '') }}"
+                    <img src="<?php echo e(asset('admin/assets/images/gallery-tours/' . $tourDetail->images[4] . '')); ?>"
                         alt="Destination">
                 </div>
             </div>
@@ -61,18 +61,18 @@
                 <div class="tour-header-content mb-15" data-aos="fade-left" data-aos-duration="1500"
                     data-aos-offset="50">
                     <span class="location d-inline-block mb-10"><i class="fal fa-map-marker-alt"></i>
-                        {{ $tourDetail->destination }}</span>
+                        <?php echo e($tourDetail->destination); ?></span>
                     <div class="section-title pb-5">
-                        <h2>{{ $tourDetail->title }}</h2>
+                        <h2><?php echo e($tourDetail->title); ?></h2>
                     </div>
                     <div class="ratting">
-                        @for ($i = 0; $i < 5; $i++)
-                            @if ($avgStar && $i < $avgStar)
+                        <?php for($i = 0; $i < 5; $i++): ?>
+                            <?php if($avgStar && $i < $avgStar): ?>
                                 <i class="fas fa-star"></i>
-                            @else
+                            <?php else: ?>
                                 <i class="far fa-star"></i>
-                            @endif
-                        @endfor
+                            <?php endif; ?>
+                        <?php endfor; ?>
 
                     </div>
                 </div>
@@ -98,7 +98,7 @@
             <div class="col-lg-8">
                 <div class="tour-details-content">
                     <h3>Khám phá Tours</h3>
-                    <p>{!! $tourDetail->description !!} </p>
+                    <p><?php echo $tourDetail->description; ?> </p>
                     <div class="row pb-55">
                         <div class="col-md-6">
                             <div class="tour-include-exclude mt-30">
@@ -131,35 +131,37 @@
                 </div>
                 <h3>Lịch trình</h3>
                 <div class="accordion-two mt-25 mb-60" id="faq-accordion-two">
-                    @php
+                    <?php
                         $day = 1;
-                    @endphp
-                    @foreach ($tourDetail->timeline as $timeline)
+                    ?>
+                    <?php $__currentLoopData = $tourDetail->timeline; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timeline): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="accordion-item">
                             <h5 class="accordion-header">
                                 <button class="accordion-button collapsed" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseTwo{{ $timeline->timeLineId }}">
-                                    Ngày {{ $day++ }} - {{ $timeline->title }}
+                                    data-bs-target="#collapseTwo<?php echo e($timeline->timeLineId); ?>">
+                                    Ngày <?php echo e($day++); ?> - <?php echo e($timeline->title); ?>
+
                                 </button>
                             </h5>
-                            <div id="collapseTwo{{ $timeline->timeLineId }}" class="accordion-collapse collapse"
+                            <div id="collapseTwo<?php echo e($timeline->timeLineId); ?>" class="accordion-collapse collapse"
                                 data-bs-parent="#faq-accordion-two">
                                 <div class="accordion-body">
-                                    <p>{!! $timeline->description !!}</p>
+                                    <p><?php echo $timeline->description; ?></p>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-                <div id="partials_reviews">
-                    @include('clients.partials.reviews')
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
 
-                <h3 class="{{ $checkDisplay }}">Thêm Đánh giá</h3>
-                <form id="comment-form" class="comment-form bgc-lighter z-1 rel mt-30 {{ $checkDisplay }}"
-                    name="review-form" action="{{ route('reviews') }}" method="post" data-aos="fade-up"
+                <div id="partials_reviews">
+                    <?php echo $__env->make('clients.partials.reviews', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                </div>
+
+                <h3 class="<?php echo e($checkDisplay); ?>">Thêm Đánh giá</h3>
+                <form id="comment-form" class="comment-form bgc-lighter z-1 rel mt-30 <?php echo e($checkDisplay); ?>"
+                    name="review-form" action="<?php echo e(route('reviews')); ?>" method="post" data-aos="fade-up"
                     data-aos-duration="1500" data-aos-offset="50"> <!-- TThời gian và khoảng cách hiển thị -->
-                    @csrf
+                    <?php echo csrf_field(); ?>
                     <div class="comment-review-wrap">
                         <div class="comment-ratting-item">
                             <span class="title">Đánh giá</span>
@@ -185,8 +187,8 @@
                         <div class="col-md-12">
                             <div class="form-group mb-0">
                                 <button type="submit" class="theme-btn bgc-secondary style-two" id="submit-reviews"
-                                    data-url-checkBooking="{{ route('checkBooking') }}"
-                                    àdata-tourId-reviews="{{ $tourDetail->tourId }}">
+                                    data-url-checkBooking="<?php echo e(route('checkBooking')); ?>"
+                                    àdata-tourId-reviews="<?php echo e($tourDetail->tourId); ?>">
                                     <span data-hover="Gửi đánh giá">Gửi đánh giá</span>
                                     <i class="fal fa-arrow-right"></i>
                                 </button>
@@ -202,23 +204,23 @@
                     <div class="widget widget-booking" data-aos="fade-up" data-aos-duration="1500"
                         data-aos-offset="50">
                         <h5 class="widget-title">Tour Booking</h5>
-                        <form action="{{ route('booking', ['id' => $tourDetail->tourId]) }}" method="POST">
-                            @csrf
+                        <form action="<?php echo e(route('booking', ['id' => $tourDetail->tourId])); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
                             <div class="date mb-25">
                                 <b>Ngày bắt đầu</b>
-                                <input type="text" value="{{ date('d-m-Y', strtotime($tourDetail->startDate)) }}"
+                                <input type="text" value="<?php echo e(date('d-m-Y', strtotime($tourDetail->startDate))); ?>"
                                     name="startdate" disabled>
                             </div>
                             <hr>
                             <div class="date mb-25">
                                 <b>Ngày kết thúc</b>
-                                <input type="text" value="{{ date('d-m-Y', strtotime($tourDetail->endDate)) }}"
+                                <input type="text" value="<?php echo e(date('d-m-Y', strtotime($tourDetail->endDate))); ?>"
                                     name="enddate" disabled>
                             </div>
                             <hr>
                             <div class="time py-5">
                                 <b>Thời gian :</b>
-                                <p>{{ $tourDetail->time }}</p>
+                                <p><?php echo e($tourDetail->time); ?></p>
                                 <input type="hidden" name="time">
                             </div>
                             <hr class="mb-25">
@@ -226,12 +228,12 @@
                             <ul class="tickets clearfix">
                                 <li>
                                     Người lớn <span
-                                        class="price">{{ number_format($tourDetail->priceAdult, 0, ',', '.') }} VND
+                                        class="price"><?php echo e(number_format($tourDetail->priceAdult, 0, ',', '.')); ?> VND
                                     </span>
                                 </li>
                                 <li>
                                     Trẻ em <span
-                                        class="price">{{ number_format($tourDetail->priceChild, 0, ',', '.') }} VND
+                                        class="price"><?php echo e(number_format($tourDetail->priceChild, 0, ',', '.')); ?> VND
                                     </span>
                                 </li>
                             </ul>
@@ -240,7 +242,7 @@
                                 <i class="fal fa-arrow-right"></i>
                             </button>
                             <div class="text-center">
-                                <a href="{{ route('contact') }}">Bạn cần trợ giúp không?</a>
+                                <a href="<?php echo e(route('contact')); ?>">Bạn cần trợ giúp không?</a>
                             </div>
                         </form>
                     </div>
@@ -255,34 +257,34 @@
                                     88</a></li>
                         </ul>
                     </div>
-                    @if (!empty($tourRecommendations))
+                    <?php if(!empty($tourRecommendations)): ?>
                         <div class="widget widget-tour" data-aos="fade-up" data-aos-duration="1500"
                             data-aos-offset="50">
                             <h6 class="widget-title">Tours tương tự</h6>
-                            @foreach ($tourRecommendations as $tour)
+                            <?php $__currentLoopData = $tourRecommendations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tour): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="destination-item tour-grid style-three bgc-lighter">
                                     <div class="image">
-                                        {{-- <span class="badge">10% Off</span> --}}
-                                        <img src="{{ asset('admin/assets/images/gallery-tours/' . $tour->images[0]) }}"
+                                        
+                                        <img src="<?php echo e(asset('admin/assets/images/gallery-tours/' . $tour->images[0])); ?>"
                                             alt="Tour" style="max-height: 137px">
                                     </div>
                                     <div class="content">
                                         <div class="destination-header">
                                             <span class="location"><i class="fal fa-map-marker-alt"></i>
-                                                {{ $tour->destination }}</span>
+                                                <?php echo e($tour->destination); ?></span>
                                             <div class="ratting">
                                                 <i class="fas fa-star"></i>
-                                                <span>({{ $tour->rating }})</span>
+                                                <span>(<?php echo e($tour->rating); ?>)</span>
                                             </div>
                                         </div>
                                         <h6><a
-                                                href="{{ route('tour-detail', ['id' => $tour->tourId]) }}">{{ $tour->title }}</a>
+                                                href="<?php echo e(route('tour-detail', ['id' => $tour->tourId])); ?>"><?php echo e($tour->title); ?></a>
                                         </h6>
                                     </div>
                                 </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
-                    @endif
+                    <?php endif; ?>
 
                 </div>
             </div>
@@ -291,5 +293,6 @@
 </section>
 <!-- Tour Details Area end -->
 
-@include('clients.blocks.new_letter')
-@include('clients.blocks.footer')
+<?php echo $__env->make('clients.blocks.new_letter', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('clients.blocks.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php /**PATH C:\xampp\htdocs\travela\resources\views/clients/tour-detail.blade.php ENDPATH**/ ?>

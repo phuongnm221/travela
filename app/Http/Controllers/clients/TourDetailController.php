@@ -4,6 +4,7 @@ namespace App\Http\Controllers\clients;
 
 use App\Http\Controllers\Controller;
 use App\Models\clients\Tours;
+use App\Models\clients\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -11,26 +12,30 @@ class TourDetailController extends Controller
 {
 
     private $tours;
+    private $booking;
 
     public function __construct()
     {
         parent::__construct(); // Gọi constructor của Controller để khởi tạo $user
         $this->tours = new Tours();
+        $this->booking = new Booking();
     }
     public function index($id = 0)
     {
         $title = 'Chi tiết tours';
         $userId = $this->getUserId();
 
-        $tourDetail = $this->tours->getTourDetail($id);
+        $tourDetail = $this->tours->getTourDetail($id); //thông tin chung, hình ảnh, timeline
         $getReviews = $this->tours->getReviews($id);
         $reviewStats = $this->tours->reviewStats($id);
 
         $avgStar = round($reviewStats->averageRating);
         $countReview = $reviewStats->reviewCount;
 
+        // Kiểm tra người dùng đã đặt tour và đánh giá chưa
+        $hasBooked = $this->booking->checkBooking($id, $userId);
         $checkReviewExist = $this->tours->checkReviewExist($id, $userId);
-        if (!$checkReviewExist) {
+        if ($hasBooked &&!$checkReviewExist) {
             $checkDisplay = '';
         } else {
             $checkDisplay = 'hide';
