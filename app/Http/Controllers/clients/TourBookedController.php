@@ -7,6 +7,7 @@ use App\Models\clients\Booking;
 use App\Models\clients\Tours;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TourBookedController extends Controller
 {
@@ -47,32 +48,29 @@ class TourBookedController extends Controller
 
     public function cancelBooking(Request $req)
     {
-        $tourId = $req->tourId;
-        $quantityAdults = $req->quantity__adults;
-        $quantityChildren = $req->quantity__children;
         $bookingId = $req->bookingId;
 
+        $booking = Booking::findOrFail($bookingId);
 
-        $tour = $this->tour->getTourDetail($tourId);
-        $currentQuantity = $tour->quantity;
+        // Chỉ cho phép hủy khi trạng thái = b
+        if ($booking->bookingStatus !== 'b') {
+            toastr()->error('Chỉ có thể hủy khi đang đợi xác nhận', 'Thông báo');
+            return redirect()->back();
+        }
 
-        // Tính toán số lượng trả lại
-        $return_quantity = $quantityAdults + $quantityChildren;
+        DB::beginTransaction();
+        try {
+            $booking->bookingStatus = 'c';
+            $booking->save();
 
-        // Cập nhật lại số lượng mới cho tour
-        $newQuantity = $currentQuantity + $return_quantity;
-        $updateQuantity = $this->tour->updateTours($tourId, ['quantity' => $newQuantity]);
-
-        // Hủy booking
-        $updateBooking = $this->booking->cancelBooking($bookingId);
-
-        if ($updateQuantity && $updateBooking) {
+            DB::commit();
             toastr()->success('Hủy thành công!', 'Thông báo');
-            
-        }else{
-            toastr()->error('Có lỗi xảy ra !', 'Thông báo');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            toastr()->error('Có lỗi xảy ra!', 'Thông báo');
         }
 
         return redirect()->route('home');
     }
+
 }
