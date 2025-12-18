@@ -238,10 +238,22 @@
                                     </span>
                                 </li>
                             </ul>
-                            <button type="submit" class="theme-btn style-two w-100 mt-15 mb-5">
-                                <span data-hover="Đặt ngay">Đặt ngay</span>
-                                <i class="fal fa-arrow-right"></i>
-                            </button>
+                            <?php
+                                use Carbon\Carbon;
+                                $today = Carbon::today();
+                                $startDate = Carbon::parse($tourDetail->startDate);
+                                $disableBooking = $today->greaterThanOrEqualTo($startDate);
+                            ?>
+                            <?php if($disableBooking): ?>
+                                <p class="text-danger text-center mt-2">
+                                    Tour đã bắt đầu, không thể đặt
+                                </p>
+                            <?php else: ?> 
+                                <button type="submit" class="theme-btn style-two w-100 mt-15 mb-5">
+                                    <span data-hover="Đặt ngay">Đặt ngay</span>
+                                    <i class="fal fa-arrow-right"></i>
+                                </button>
+                            <?php endif; ?>
                             <div class="text-center">
                                 <a href="<?php echo e(route('contact')); ?>">Bạn cần trợ giúp không?</a>
                             </div>
