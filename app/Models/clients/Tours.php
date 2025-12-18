@@ -18,7 +18,12 @@ class Tours extends Model
     public function getAllTours($perPage = 9)
     {
 
-        $allTours = DB::table($this->table)->where('availability', 1)->paginate($perPage);
+        $allTours = DB::table($this->table)
+            ->where('availability', 1)
+            ->where('startDate', '>', now())   // chưa bắt đầu
+            ->where('quantity', '>', 0)        // còn vé
+            ->paginate($perPage);
+
         foreach ($allTours as $tour) {
             // Lấy danh sách hình ảnh thuộc về tour
             $tour->images = DB::table('tbl_images')
@@ -30,6 +35,8 @@ class Tours extends Model
 
         return $allTours;
     }
+
+
     //Lấy chi tiết tour
     public function getTourDetail($id)
     {

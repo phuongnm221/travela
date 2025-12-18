@@ -97,6 +97,7 @@ class TourDetailController extends Controller
         $avgStar = round($reviewStats->averageRating);
         $countReview = $reviewStats->reviewCount;
 
+        dd($this->getUserId(), $req->all());
         // Trả về phản hồi thành công
         return response()->json([
             'success' => true,
